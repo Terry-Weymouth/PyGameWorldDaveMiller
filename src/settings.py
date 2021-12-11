@@ -19,5 +19,19 @@ FPS = 10
 
 class GeneCellType(Enum):
     SENSOR = 1
-    NURON = 2
+    NEURON = 2
     ACTUATOR = 3
+
+    @classmethod
+    def source_type_by_index(cls, type_index):
+        cell_type = GeneCellType.SENSOR
+        if type_index is 1:
+            cell_type = GeneCellType.NEURON
+        return cell_type
+
+    @classmethod
+    def sink_type_by_index(cls, type_index):
+        cell_type = GeneCellType.ACTUATOR
+        if type_index is 1:
+            cell_type = GeneCellType.NEURON
+        return cell_type

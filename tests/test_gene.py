@@ -1,5 +1,6 @@
 import unittest
 from parts.Gene import Gene
+from settings import GeneCellType
 
 
 class TestGene(unittest.TestCase):
@@ -26,12 +27,14 @@ class TestGene(unittest.TestCase):
         self.assertNotEqual(gene.get_gene_bytes(),gene_copy.get_gene_bytes())
 
     def test_parse(self):
-        settings = ((0, 127), (1, 15), 256*255 + 15)
+        settings = [[0, 127], [1, 15], 256*255 + 15]
         byte0 = settings[0][0] << 7 | settings[0][1]
         byte1 = settings[1][0] << 7 | settings[1][1]
         byte2 = settings[2] >> 8 & 255
         byte3 = settings[2] & 255
         gene_bytes = bytearray([byte0, byte1, byte2, byte3])
         gene = Gene(gene_bytes)
+        settings[0][0] = GeneCellType.source_type_by_index(settings[0][0])
+        settings[1][0] = GeneCellType.source_type_by_index(settings[1][0])
         settings_list = gene.parse()
         self.assertEqual(settings, settings_list)
