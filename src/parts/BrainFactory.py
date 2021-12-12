@@ -1,4 +1,5 @@
 from parts.cells.brain_cell_arrays import SENSORS, ACTUATORS, NEURONS
+from parts.Gene import Gene
 from settings import GeneCellType
 from parts.Connection import Connection
 from copy import deepcopy
@@ -18,6 +19,21 @@ class BrainFactory:
         for gene in genome.get_genes():
             connections.append(self.make_connection_from(gene))
         return connections
+
+    @staticmethod
+    def make_gene_from_settings_array(settings):
+        # for example: settings = [[0, 127], [1, 15], 256*255 + 15]
+        # source - type 0/1 for SENSOR/NEURON, and raw_index
+        # sink - type 0/1 for ACTUATOR/NEURON, and raw_index
+        # raw_connection_strength
+        # see GeneCellType in settings, parts.Gene, and BrainFactory.cell_from_parse_array
+        byte0 = settings[0][0] << 7 | settings[0][1]
+        byte1 = settings[1][0] << 7 | settings[1][1]
+        byte2 = settings[2] >> 8 & 255
+        byte3 = settings[2] & 255
+        gene_bytes = bytearray([byte0, byte1, byte2, byte3])
+        gene = Gene(gene_bytes)
+        return gene
 
     @staticmethod
     def cell_from_parse_array(cell_parse):

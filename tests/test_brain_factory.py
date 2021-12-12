@@ -1,7 +1,6 @@
 import unittest
 from parts.cells.brain_cell_arrays import SENSORS, ACTUATORS, NEURONS
 from settings import GeneCellType
-from parts.Gene import Gene
 from parts.Genome import Genome
 from parts.BrainFactory import BrainFactory
 
@@ -19,12 +18,7 @@ class BrianFactoryTest(unittest.TestCase):
     def test_brain_connection(self):
         factory = BrainFactory()
 
-        settings = [[0, 0], [1, 1], 256*255 + 255]
-        byte0 = settings[0][0] << 7 | settings[0][1]
-        byte1 = settings[1][0] << 7 | settings[1][1]
-        byte2 = settings[2] >> 8 & 255
-        byte3 = settings[2] & 255
-        gene = Gene(bytearray([byte0, byte1, byte2, byte3]))
+        gene = factory.make_gene_from_settings_array([[0, 0], [1, 1], 256*255 + 255])
 
         parse_array = gene.parse()
         self.assertEqual(GeneCellType.SENSOR, parse_array[0][0])
@@ -50,28 +44,17 @@ class BrianFactoryTest(unittest.TestCase):
         minimum_strength_raw = 0
         middle_strength_raw = 256*128
 
+        factory = BrainFactory()
         # genes for testing
         # 1) sensor0 to nuron0
-        settings = [[0, 0], [1, 0], maximum_strength_raw]
-        byte0 = settings[0][0] << 7 | settings[0][1]
-        byte1 = settings[1][0] << 7 | settings[1][1]
-        byte2 = settings[2] >> 8 & 255
-        byte3 = settings[2] & 255
-        gene1 = Gene(bytearray([byte0, byte1, byte2, byte3]))
+        gene1 = factory.make_gene_from_settings_array(
+            [[0, 0], [1, 0], maximum_strength_raw])
         # 2) nuron0 to actuator0
-        settings = [[1, 0], [0, 0], minimum_strength_raw]
-        byte0 = settings[0][0] << 7 | settings[0][1]
-        byte1 = settings[1][0] << 7 | settings[1][1]
-        byte2 = settings[2] >> 8 & 255
-        byte3 = settings[2] & 255
-        gene2 = Gene(bytearray([byte0, byte1, byte2, byte3]))
+        gene2 = factory.make_gene_from_settings_array(
+            [[1, 0], [0, 0], minimum_strength_raw])
         # 3) sensor1 to actuator1
-        settings = [[0, 1], [0, 1], middle_strength_raw]
-        byte0 = settings[0][0] << 7 | settings[0][1]
-        byte1 = settings[1][0] << 7 | settings[1][1]
-        byte2 = settings[2] >> 8 & 255
-        byte3 = settings[2] & 255
-        gene3 = Gene(bytearray([byte0, byte1, byte2, byte3]))
+        gene3 = factory.make_gene_from_settings_array(
+            [[0, 1], [0, 1], middle_strength_raw])
 
         # replace random genes with fixed genes - for testing
         genome = Genome()
@@ -93,4 +76,3 @@ class BrianFactoryTest(unittest.TestCase):
         self.assertEqual(type(SENSORS[1]), type(connection3.source))
         self.assertEqual(type(ACTUATORS[1]), type(connection3.sink))
         self.assertEqual(0.0, connection3.strength)
-
