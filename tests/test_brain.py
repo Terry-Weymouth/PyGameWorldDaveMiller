@@ -7,10 +7,12 @@ from parts.Brain import Brain
 class TestBrain(unittest.TestCase):
 
     def test_conditions(self):
+        factory = BrainFactory()
+        library = factory.get_library()
         # minimal conditions for tests
-        self.assertGreaterEqual(len(SENSORS),2)
-        self.assertGreaterEqual(len(ACTUATORS),2)
-        self.assertGreaterEqual(len(NEURONS),3)
+        self.assertGreaterEqual(len(library.get_sensors()),2)
+        self.assertGreaterEqual(len(library.get_actuators()),2)
+        self.assertGreaterEqual(len(library.get_neurons()),3)
 
     def test_make_initial_connections(self):
         factory = BrainFactory()

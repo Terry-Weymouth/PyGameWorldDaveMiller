@@ -1,4 +1,3 @@
-from parts.cells.brain_cell_arrays import SENSORS, ACTUATORS, NEURONS
 from parts.BrainFactory import BrainFactory
 
 factory = BrainFactory()

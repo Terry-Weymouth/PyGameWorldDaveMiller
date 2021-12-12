@@ -1,11 +1,16 @@
-from parts.cells.brain_cell_arrays import SENSORS, ACTUATORS, NEURONS
 from parts.Gene import Gene
 from settings import GeneCellType
 from parts.Connection import Connection
-from copy import deepcopy
+from parts.cells.CellCollection import CellCollection
 
 
 class BrainFactory:
+
+    def __init__(self):
+        self.library = CellCollection()
+
+    def get_library(self):
+        return self.library
 
     def make_connection_from(self, gene):
         parse_array = gene.parse()
@@ -35,17 +40,16 @@ class BrainFactory:
         gene = Gene(gene_bytes)
         return gene
 
-    @staticmethod
-    def cell_from_parse_array(cell_parse):
+    def cell_from_parse_array(self, cell_parse):
         cell_type = cell_parse[0]
         raw_index = cell_parse[1]
         cell_array = []
         if cell_type is GeneCellType.SENSOR:
-            cell_array = SENSORS
+            cell_array = self.library.get_sensors()
         elif cell_type is GeneCellType.ACTUATOR:
-            cell_array = ACTUATORS
+            cell_array = self.library.get_actuators()
         elif cell_type is GeneCellType.NEURON:
-            cell_array = NEURONS
+            cell_array = self.library.get_neurons()
         index = raw_index % len(cell_array)
         return cell_array[index]
 
