@@ -47,7 +47,7 @@ class BrainFactory:
         elif cell_type is GeneCellType.NEURON:
             cell_array = NEURONS
         index = raw_index % len(cell_array)
-        return deepcopy(cell_array[index])
+        return cell_array[index]
 
     @staticmethod
     def map_raw_strength(raw_strength):
