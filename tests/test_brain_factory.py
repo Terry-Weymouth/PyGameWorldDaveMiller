@@ -32,15 +32,15 @@ class BrianFactoryTest(unittest.TestCase):
         source_cell = factory.cell_from_parse_array(parse_array[0])
         sink_cell = factory.cell_from_parse_array(parse_array[1])
         self.assertEqual(GeneCellType.SENSOR, source_cell.type)
-        self.assertEqual(SENSORS[0], source_cell)
+        self.assertEqual(type(SENSORS[0]), type(source_cell))
         self.assertEqual(GeneCellType.NEURON, sink_cell.type)
-        self.assertEqual(NEURONS[1], sink_cell)
+        self.assertEqual(type(NEURONS[1]), type(sink_cell))
 
         connection = factory.make_connection_from(gene)
         self.assertEqual(GeneCellType.SENSOR, connection.source.type)
-        self.assertEqual(SENSORS[0], connection.source)
+        self.assertEqual(type(SENSORS[0]), type(connection.source))
         self.assertEqual(GeneCellType.NEURON, connection.sink.type)
-        self.assertEqual(NEURONS[1], connection.sink)
+        self.assertEqual(type(NEURONS[1]), type(connection.sink))
         self.assertGreaterEqual(4.0, connection.strength)
         self.assertLessEqual(3.999, connection.strength)
 
@@ -81,16 +81,16 @@ class BrianFactoryTest(unittest.TestCase):
         connections = factory.make_connections_from(genome)
         self.assertEqual(3, len(connections))
         connection1 = connections[0]
-        self.assertEqual(SENSORS[0], connection1.source)
-        self.assertEqual(NEURONS[0], connection1.sink)
+        self.assertEqual(type(SENSORS[0]), type(connection1.source))
+        self.assertEqual(type(NEURONS[0]), type(connection1.sink))
         self.assertGreaterEqual(4.0, connection1.strength)
         self.assertLessEqual(3.999, connection1.strength)
         connection2 = connections[1]
-        self.assertEqual(NEURONS[0], connection2.source)
-        self.assertEqual(ACTUATORS[0], connection2.sink)
+        self.assertEqual(type(NEURONS[0]), type(connection2.source))
+        self.assertEqual(type(ACTUATORS[0]), type(connection2.sink))
         self.assertEqual(-4.0, connection2.strength)
         connection3 = connections[2]
-        self.assertEqual(SENSORS[1], connection3.source)
-        self.assertEqual(ACTUATORS[1], connection3.sink)
+        self.assertEqual(type(SENSORS[1]), type(connection3.source))
+        self.assertEqual(type(ACTUATORS[1]), type(connection3.sink))
         self.assertEqual(0.0, connection3.strength)
 

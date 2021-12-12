@@ -1,6 +1,7 @@
 from parts.cells.brain_cell_arrays import SENSORS, ACTUATORS, NEURONS
 from settings import GeneCellType
 from parts.Connection import Connection
+from copy import deepcopy
 
 
 class BrainFactory:
@@ -30,7 +31,7 @@ class BrainFactory:
         elif cell_type is GeneCellType.NEURON:
             cell_array = NEURONS
         index = raw_index % len(cell_array)
-        return cell_array[index]
+        return deepcopy(cell_array[index])
 
     @staticmethod
     def map_raw_strength(raw_strength):
