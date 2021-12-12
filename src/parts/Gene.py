@@ -1,6 +1,7 @@
 from random import getrandbits
 from settings import GeneCellType
 
+
 class Gene:
     BYTE_STRING_LENGTH = 4
 
