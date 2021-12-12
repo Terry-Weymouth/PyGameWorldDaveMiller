@@ -30,3 +30,6 @@ class TestBrain(unittest.TestCase):
 
         brain = Brain(genome)
         self.assertEqual(5, len(brain.all_cells))
+        self.assertEqual(2, len(brain.sensors))
+        self.assertEqual(2, len(brain.actuators))
+        self.assertEqual(1, len(brain.neurons))

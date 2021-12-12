@@ -1,4 +1,5 @@
 from parts.BrainFactory import BrainFactory
+from settings import GeneCellType
 
 factory = BrainFactory()
 
@@ -24,3 +25,13 @@ class Brain:
         cell_type = cell.type
         if cell not in self.all_cells:
             self.all_cells.append(cell)
+        if cell_type is GeneCellType.SENSOR:
+            if cell not in self.sensors:
+                self.sensors.append(cell)
+        if cell_type is GeneCellType.ACTUATOR:
+            if cell not in self.actuators:
+                self.actuators.append(cell)
+        if cell_type is GeneCellType.NEURON:
+            if cell not in self.neurons:
+                self.neurons.append(cell)
+
