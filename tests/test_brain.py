@@ -2,20 +2,53 @@ import unittest
 from parts.BrainFactory import BrainFactory
 from parts.Genome import Genome
 from parts.Brain import Brain
+from parts.cells.CellCollection import CellCollection
 
 
 class TestBrain(unittest.TestCase):
 
     def test_conditions(self):
-        factory = BrainFactory()
-        library = factory.get_library()
+        potential_cells = CellCollection()
         # minimal conditions for tests
-        self.assertGreaterEqual(len(library.get_sensors()),2)
-        self.assertGreaterEqual(len(library.get_actuators()),2)
-        self.assertGreaterEqual(len(library.get_neurons()),3)
+        self.assertGreaterEqual(len(potential_cells.get_sensors()), 2)
+        self.assertGreaterEqual(len(potential_cells.get_actuators()), 2)
+        self.assertGreaterEqual(len(potential_cells.get_neurons()), 3)
 
-    def test_make_initial_connections(self):
+    def test_brain_connections(self):
         factory = BrainFactory()
+        potential_cells = CellCollection()
+        # genes for testing
+        genes = [
+            # 1) sensor0 to nuron0
+            factory.make_gene_from_settings_array([[0, 0], [1, 0], 0]),
+            # 2) nuron0 to actuator0
+            factory.make_gene_from_settings_array([[1, 0], [0, 0], 0]),
+            # 3) sensor1 to actuator1
+            factory.make_gene_from_settings_array([[0, 1], [0, 1], 0])]
+
+        # make Genome with fixed genes - for testing
+        genome = Genome(genes)
+        self.assertEqual(genes, genome.get_genes())
+
+        connections = factory.make_connections_from(genome, potential_cells)
+        self.assertEqual(3, len(connections))
+        connection1 = connections[0]
+        self.assertEqual(potential_cells.get_sensors()[0], connection1.source)
+        self.assertEqual(potential_cells.get_neurons()[0], connection1.sink)
+        self.assertEqual(-4.0, connection1.strength)
+        connection2 = connections[1]
+        self.assertEqual(potential_cells.get_neurons()[0], connection2.source)
+        self.assertEqual(potential_cells.get_actuators()[0], connection2.sink)
+        self.assertEqual(-4.0, connection2.strength)
+        connection3 = connections[2]
+        self.assertEqual(potential_cells.get_sensors()[1], connection3.source)
+        self.assertEqual(potential_cells.get_actuators()[1], connection3.sink)
+        self.assertEqual(-4.0, connection3.strength)
+
+    def test_make_simple_connections(self):
+        factory = BrainFactory()
+        potential_cells = CellCollection()
+        # library = factory.get_library()
         # genes for testing
         genes = [
             # 1) sensor0 to nuron0
@@ -28,8 +61,49 @@ class TestBrain(unittest.TestCase):
         # make Genome with fixed genes - for testing
         genome = Genome(genes)
 
-        brain = Brain(genome)
+        brain = Brain(genome, potential_cells)
+        self.assertEqual(genome, brain.genome)
         self.assertEqual(5, len(brain.all_cells))
         self.assertEqual(2, len(brain.sensors))
         self.assertEqual(2, len(brain.actuators))
         self.assertEqual(1, len(brain.neurons))
+
+#        for cell in brain.sensors:
+#            self.assertIn(cell, library.get_sensors())
+#        for cell in brain.actuators:
+#            self.assertIn(cell, library.get_actuators())
+        #        for cell in brain.neurons:
+        #    self.assertIn(cell, library.get_neurons())
+
+        #        connections = brain.connections
+        # self.assertEqual(3, len(connections))
+        # connection1 = connections[0]
+        # self.assertEqual(library.get_sensors()[0], connection1.source)
+        # self.assertEqual(library.get_neurons()[0], connection1.sink)
+        # self.assertEqual(-4.0, connection1.strength)
+        # connection2 = connections[1]
+        # self.assertEqual(library.get_neurons()[0], connection2.source)
+        # self.assertEqual(library.get_actuators()[0], connection2.sink)
+        # self.assertEqual(-4.0, connection2.strength)
+        # connection3 = connections[2]
+        # self.assertEqual(library.get_sensors()[1], connection3.source)
+        # self.assertEqual(library.get_actuators()[1], connection3.sink)
+        # self.assertEqual(-4.0, connection3.strength)
+
+        # for cell in brain.all_cells:
+        #     for connection in cell.connects_to:
+        #         self.assertEqual(cell, connection.source)
+        #     for connection in cell.connects_from:
+        #         self.assertEqual(cell, connection.sink)
+
+        # print(library.get_sensors())
+        # print(brain.sensors)
+
+        # sensor0 = library.get_sensors()[0]
+        # self.assertEqual(sensor0, brain.sensors[0])
+#        self.assertEqual(0, len(sensor0.connects_from))
+#        self.assertEqual(1, len(sensor0.connects_to))
+
+#        neuron0 = factory.get_library().get_neurons()[0]
+#        self.assertEqual(1, len(sensor0.connects_from))
+#        self.assertEqual(1, len(sensor0.connects_to))

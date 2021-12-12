@@ -6,13 +6,14 @@ factory = BrainFactory()
 
 class Brain:
 
-    def __init__(self, genom):
-        self.genom = genom
+    def __init__(self, genome, cells_for_brain):
+        self.candidates = cells_for_brain
+        self.genome = genome
         self.all_cells = []
         self.sensors = []
         self.actuators = []
         self.neurons = []
-        self.connections = factory.make_connections_from(genom)
+        self.connections = factory.make_connections_from(genome, self.candidates)
         for connection in self.connections:
             source = connection.source
             sink = connection.sink
@@ -34,4 +35,3 @@ class Brain:
         if cell_type is GeneCellType.NEURON:
             if cell not in self.neurons:
                 self.neurons.append(cell)
-

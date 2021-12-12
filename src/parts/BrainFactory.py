@@ -1,28 +1,21 @@
 from parts.Gene import Gene
 from settings import GeneCellType
 from parts.Connection import Connection
-from parts.cells.CellCollection import CellCollection
 
 
 class BrainFactory:
 
-    def __init__(self):
-        self.library = CellCollection()
-
-    def get_library(self):
-        return self.library
-
-    def make_connection_from(self, gene):
+    def make_connection_from(self, gene, candidates):
         parse_array = gene.parse()
-        source_cell = self.cell_from_parse_array(parse_array[0])
-        sink_cell = self.cell_from_parse_array(parse_array[1])
+        source_cell = self.cell_from_parse_array(parse_array[0], candidates)
+        sink_cell = self.cell_from_parse_array(parse_array[1], candidates)
         strength = self.map_raw_strength(parse_array[2])
         return Connection(source_cell, sink_cell, strength)
 
-    def make_connections_from(self, genome):
+    def make_connections_from(self, genome, candidates):
         connections = []
         for gene in genome.get_genes():
-            connections.append(self.make_connection_from(gene))
+            connections.append(self.make_connection_from(gene, candidates))
         return connections
 
     @staticmethod
@@ -40,16 +33,17 @@ class BrainFactory:
         gene = Gene(gene_bytes)
         return gene
 
-    def cell_from_parse_array(self, cell_parse):
+    @staticmethod
+    def cell_from_parse_array(cell_parse, candidates):
         cell_type = cell_parse[0]
         raw_index = cell_parse[1]
         cell_array = []
         if cell_type is GeneCellType.SENSOR:
-            cell_array = self.library.get_sensors()
+            cell_array = candidates.get_sensors()
         elif cell_type is GeneCellType.ACTUATOR:
-            cell_array = self.library.get_actuators()
+            cell_array = candidates.get_actuators()
         elif cell_type is GeneCellType.NEURON:
-            cell_array = self.library.get_neurons()
+            cell_array = candidates.get_neurons()
         index = raw_index % len(cell_array)
         return cell_array[index]
 
