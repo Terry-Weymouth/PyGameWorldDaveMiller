@@ -97,11 +97,47 @@ class TestBrain(unittest.TestCase):
                 self.assertEqual(cell, connection.sink)
 
         sensor0 = potential_cells.get_sensors()[0]
+        neuron0 = potential_cells.get_neurons()[0]
+        actuator0 = potential_cells.get_actuators()[0]
+
         self.assertEqual(sensor0, brain.sensors[0])
+        self.assertEqual(neuron0, brain.neurons[0])
+        self.assertEqual(actuator0, brain.actuators[0])
+
         self.assertEqual(0, len(sensor0.connects_from))
         self.assertEqual(1, len(sensor0.connects_to))
+        self.assertEqual(sensor0, sensor0.connects_to[0].source)
+        self.assertEqual(neuron0, sensor0.connects_to[0].sink)
 
-        neuron0 = potential_cells.get_neurons()[0]
-        self.assertEqual(neuron0, brain.neurons[0])
         self.assertEqual(1, len(neuron0.connects_from))
         self.assertEqual(1, len(neuron0.connects_to))
+        self.assertEqual(sensor0, neuron0.connects_from[0].source)
+        self.assertEqual(neuron0, neuron0.connects_from[0].sink)
+        self.assertEqual(neuron0, neuron0.connects_to[0].source)
+        self.assertEqual(actuator0, neuron0.connects_to[0].sink)
+
+        self.assertEqual(1, len(actuator0.connects_from))
+        self.assertEqual(0, len(actuator0.connects_to))
+        self.assertEqual(neuron0, actuator0.connects_from[0].source)
+        self.assertEqual(actuator0, actuator0.connects_from[0].sink)
+
+        self.assertEqual(sensor0.connects_to[0], neuron0.connects_from[0])
+        self.assertEqual(neuron0.connects_to[0], actuator0.connects_from[0])
+
+        sensor1 = potential_cells.get_sensors()[1]
+        actuator1 = potential_cells.get_actuators()[1]
+
+        self.assertEqual(sensor1, brain.sensors[1])
+        self.assertEqual(actuator1, brain.actuators[1])
+
+        self.assertEqual(0, len(sensor1.connects_from))
+        self.assertEqual(1, len(sensor1.connects_to))
+        self.assertEqual(sensor1, sensor1.connects_to[0].source)
+        self.assertEqual(actuator1, sensor1.connects_to[0].sink)
+
+        self.assertEqual(1, len(actuator1.connects_from))
+        self.assertEqual(0, len(actuator1.connects_to))
+        self.assertEqual(sensor1, actuator1.connects_from[0].source)
+        self.assertEqual(actuator1, actuator1.connects_from[0].sink)
+
+        self.assertEqual(sensor1.connects_to[0], actuator1.connects_from[0])
