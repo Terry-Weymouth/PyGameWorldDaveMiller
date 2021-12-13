@@ -6,13 +6,14 @@ factory = BrainFactory()
 
 class Brain:
 
-    def __init__(self, genome, cells_for_brain):
-        self.candidates = cells_for_brain
+    def __init__(self, genome, cells_for_self):
+        self.candidates = cells_for_self
         self.genome = genome
         self.all_cells = []
         self.sensors = []
         self.actuators = []
         self.neurons = []
+        self.marked_cells = []
         self.connections = factory.make_connections_from(genome, self.candidates)
         for connection in self.connections:
             source = connection.source
@@ -35,3 +36,55 @@ class Brain:
         if cell_type is GeneCellType.NEURON:
             if cell not in self.neurons:
                 self.neurons.append(cell)
+
+    def mark_used_cells(self):
+        self.marked_cells = []
+        self.mark_all_from_connects_from(self.actuators)
+
+    def mark_all_from_connects_from(self, starting_list):
+        # starting from starting - mark unmarked on these
+        # then recurse with connects_to of newly marked
+        if not starting_list:
+            return
+        newly_marked = []
+        mark_next = []
+        for cell in starting_list:
+            if not cell.is_marked():
+                cell.set_mark()
+                newly_marked.append(cell)
+                for connection in cell.connects_from:
+                    mark_next.append(connection.source)
+        self.marked_cells += newly_marked
+        self.mark_all_from_connects_from(mark_next)
+
+    def remove_unmarked_cells(self):
+        cells_to_remove = []
+        for cell in self.all_cells:
+            if not cell.is_marked():
+                cells_to_remove.append(cell)
+        for cell in cells_to_remove:
+            self.all_cells.remove(cell)
+            if cell in self.sensors:
+                self.sensors.remove(cell)
+            if cell in self.neurons:
+                self.neurons.remove(cell)
+            for connection in cell.connects_from:
+                if connection in self.connections:
+                    self.connections.remove(connection)
+                if connection in connection.source.connects_to:
+                    connection.source.connects_to.remove(connection)
+            for connection in cell.connects_to:
+                if connection in self.connections:
+                    self.connections.remove(connection)
+                if connection in connection.sink.connects_from:
+                    connection.sink.connects_from.remove(connection)
+
+    def clear_unused_cells(self):
+        self.mark_used_cells()
+        self.remove_unmarked_cells()
+        self.reset_marks()
+
+    def reset_marks(self):
+        self.marked_cells = []
+        for cell in self.all_cells:
+            cell.reset_mark()
