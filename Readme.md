@@ -26,3 +26,6 @@ the serviving "bugs". Single bit mutations (usually at a small
 probability) are supported. See David's video on You Tube.
 
 https://www.youtube.com/watch?v=N3tRFayqVtk
+
+Note: I am using this exercise as a means to practice test-driven
+development. Which may account for the number of "intermediate" tests.
