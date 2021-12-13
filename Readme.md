@@ -1,14 +1,18 @@
-An evolution-world model closely inspired by that of Dave Miller.
+# An evolution-world model
 
-See: https://github.com/davidrmiller/biosim4
-
-This projects is a transliteration of the Dave Miller's biosim4
+This project is a transliteration of the Dave Miller's biosim4
 into Python using PyGame is an underlying simulation engine.
-In this first pass, every attempt has been made to faithfully 
-reinterpret the actions of biosim4.
+In this first pass, I attempt to reinterpret a workable subset
+of the function of biosim4, focusing on the neural-network, evolution,
+simulation of each generation, and visualization of same. Details, especially
+in flexibility of configuraton and tracking/recording have been
+neglected or glossed over.
 
-Currently, under development, and not working yet. See tests in 
-'tests' folder, and main.py in the src folder.
+See: http://www.millermattson.com/dave/?p=429
+And: https://github.com/davidrmiller/biosim4
+
+**Currently, under development, and not working yet. See tests in 
+'tests' folder, and main.py in the src folder.**
 
 In an effort to get something up and running that visually matches
 David's video presentations, I am assuming that all genes are 4 bytes
