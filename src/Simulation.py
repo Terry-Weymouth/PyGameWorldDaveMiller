@@ -27,14 +27,23 @@ class Simulation:
         # Run until the user asks to quit
         running = True
         while running:
-            # keep loop running at the right speed
-            self.clock.tick(FPS)
+            running = self.one_loop_step()
 
-            # Process input (events) - quite click or ESCAPE key
-            for event in pygame.event.get():
-                if self.is_quit_event(event):
-                    running = False
+        # Done! Time to quit.
+        pygame.quit()
 
+    def one_loop_step(self):
+        running = True
+
+        # keep loop running at the right speed
+        self.clock.tick(FPS)
+
+        # Process input (events) - quite click or ESCAPE key
+        for event in pygame.event.get():
+            if self.is_quit_event(event):
+                running = False
+
+        if running:
             self.world.one_step_all()
             self.world.sprite_group.update()
 
@@ -47,8 +56,7 @@ class Simulation:
             # Flip the display
             pygame.display.flip()
 
-        # Done! Time to quit.
-        pygame.quit()
+        return running
 
     @staticmethod
     def is_quit_event(event):
