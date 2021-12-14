@@ -1,2 +1,0 @@
-class DummyThing:
-    pass

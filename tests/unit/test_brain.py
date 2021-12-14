@@ -3,7 +3,10 @@ from parts.BrainFactory import BrainFactory
 from parts.Genome import Genome
 from parts.Brain import Brain
 from parts.cells.CellCollection import CellCollection
-from DummyThing import DummyThing
+
+
+class DummyThing:
+    pass
 
 
 class TestBrain(unittest.TestCase):
