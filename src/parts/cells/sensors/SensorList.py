@@ -5,9 +5,9 @@ from parts.cells.sensors.Age import Age
 
 class SensorList:
 
-    def __init__(self):
+    def __init__(self, thing):
         self.sensors = [
-            LocationEastWest(),
-            LocationNorthSouth(),
-            Age()
+            LocationEastWest(thing),
+            LocationNorthSouth(thing),
+            Age(thing)
         ]

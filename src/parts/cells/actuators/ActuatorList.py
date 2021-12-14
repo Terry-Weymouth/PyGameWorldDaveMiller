@@ -4,8 +4,8 @@ from parts.cells.actuators.MoveNorthSouth import MoveNorthSouth
 
 class ActuatorList:
 
-    def __init__(self):
+    def __init__(self, thing):
         self.actuators = [
-            MoveEastWest(),
-            MoveNorthSouth()
+            MoveEastWest(thing),
+            MoveNorthSouth(thing)
         ]

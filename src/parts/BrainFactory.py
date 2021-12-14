@@ -50,4 +50,4 @@ class BrainFactory:
     @staticmethod
     def map_raw_strength(raw_strength):
         # 256 ** 2 /8 = 8192
-        return float(raw_strength)/8192 - 4.0
+        return float(raw_strength) / 8192 - 4.0

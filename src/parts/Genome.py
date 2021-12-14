@@ -4,7 +4,7 @@ from parts.Gene import Gene
 
 class Genome:
 
-    def __init__(self, genes = None):
+    def __init__(self, genes=None):
         self.genes = genes
         if not genes:
             self.genes = []
@@ -14,4 +14,3 @@ class Genome:
 
     def get_genes(self):
         return self.genes
-

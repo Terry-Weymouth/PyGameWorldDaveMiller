@@ -4,12 +4,13 @@ from parts.cells.CellCollection import CellCollection
 from parts.BrainFactory import BrainFactory
 from parts.Genome import Genome
 from parts.Brain import Brain
+from DummyThing import DummyThing
 
 
 class TestNetworkCompute(unittest.TestCase):
 
     def test_conditions(self):
-        potential_cells = CellCollection()
+        potential_cells = CellCollection(DummyThing())
         # minimal conditions for tests
         self.assertGreaterEqual(len(potential_cells.get_sensors()), 3)
         self.assertGreaterEqual(len(potential_cells.get_actuators()), 2)
@@ -17,7 +18,7 @@ class TestNetworkCompute(unittest.TestCase):
 
     def test_propagate_code(self):
         factory = BrainFactory()
-        potential_cells = CellCollection()
+        potential_cells = CellCollection(DummyThing())
 
         brain = self.build_new_big_brain(factory, potential_cells)
         brain.clear_unused_cells()
@@ -60,7 +61,7 @@ class TestNetworkCompute(unittest.TestCase):
 
     def test_propagate_method(self):
         factory = BrainFactory()
-        potential_cells = CellCollection()
+        potential_cells = CellCollection(DummyThing())
 
         brain = self.build_new_big_brain(factory, potential_cells)
         brain.clear_unused_cells()

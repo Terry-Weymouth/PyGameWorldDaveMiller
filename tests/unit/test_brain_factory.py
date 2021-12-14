@@ -3,12 +3,13 @@ from settings import GeneCellType
 from parts.Genome import Genome
 from parts.BrainFactory import BrainFactory
 from parts.cells.CellCollection import CellCollection
+from DummyThing import DummyThing
 
 
 class BrianFactoryTest(unittest.TestCase):
 
     def test_brain_cell_type(self):
-        potential_cells = CellCollection()
+        potential_cells = CellCollection(DummyThing)
         for cell in potential_cells.get_sensors():
             self.assertEqual(GeneCellType.SENSOR, cell.type)
         for cell in potential_cells.get_actuators():
@@ -18,7 +19,7 @@ class BrianFactoryTest(unittest.TestCase):
 
     def test_brain_connection(self):
         factory = BrainFactory()
-        potential_cells = CellCollection()
+        potential_cells = CellCollection(DummyThing())
 
         gene = factory.make_gene_from_settings_array([[0, 0], [1, 1], 256*255 + 255])
 
@@ -47,7 +48,7 @@ class BrianFactoryTest(unittest.TestCase):
         middle_strength_raw = 256*128
 
         factory = BrainFactory()
-        potential_cells = CellCollection()
+        potential_cells = CellCollection(DummyThing)
         # genes for testing
         # 1) sensor0 to nuron0
         gene1 = factory.make_gene_from_settings_array(

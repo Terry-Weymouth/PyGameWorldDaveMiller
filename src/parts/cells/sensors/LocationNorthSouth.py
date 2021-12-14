@@ -1,9 +1,7 @@
-from parts.cells.BrainCell import BrainCell
-from settings import GeneCellType
+from parts.cells.sensors.Sensor import Sensor
 
 
-class LocationNorthSouth(BrainCell):
+class LocationNorthSouth(Sensor):
 
-    def __init__(self):
-        super().__init__()
-        self.type = GeneCellType.SENSOR
+    def __init__(self, thing):
+        super().__init__(thing)

@@ -1,4 +1,3 @@
-
 def add_points(p1, p2):
     ret_point_list = []
     for i in range(len(p1)):

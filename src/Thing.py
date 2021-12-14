@@ -10,7 +10,7 @@ class Thing(Sprite):
     def __init__(self, start_pos, world):
         Sprite.__init__(self)
         self.world = world
-        self.image = Surface((THING_SIZE , THING_SIZE))
+        self.image = Surface((THING_SIZE, THING_SIZE))
         self.image.fill(THING_COLOR)
         self.pos = start_pos
         self.next_pos = self.pos
@@ -28,7 +28,7 @@ class Thing(Sprite):
     def set_next_world_position(self):
         check_pos = self.desired_move()
         (x, y) = check_pos
-        if self.world.is_in_bounds(x,y) and self.world.is_free_grid_cell(x, y):
+        if self.world.is_in_bounds(x, y) and self.world.is_free_grid_cell(x, y):
             self.next_pos = check_pos
 
     def move_to_next_world_position(self):

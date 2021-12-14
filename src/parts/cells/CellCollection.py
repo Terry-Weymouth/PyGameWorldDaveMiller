@@ -6,9 +6,9 @@ from parts.cells.actuators.ActuatorList import ActuatorList
 
 class CellCollection:
 
-    def __init__(self):
-        self.sensors = SensorList().sensors
-        self.actuators = ActuatorList().actuators
+    def __init__(self, thing):
+        self.sensors = SensorList(thing).sensors
+        self.actuators = ActuatorList(thing).actuators
         self.neurons = []
         while len(self.neurons) < NUMBER_OF_NEURONS:
             self.neurons.append(Neuron())

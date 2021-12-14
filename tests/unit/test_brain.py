@@ -3,12 +3,13 @@ from parts.BrainFactory import BrainFactory
 from parts.Genome import Genome
 from parts.Brain import Brain
 from parts.cells.CellCollection import CellCollection
+from DummyThing import DummyThing
 
 
 class TestBrain(unittest.TestCase):
 
     def test_conditions(self):
-        potential_cells = CellCollection()
+        potential_cells = CellCollection(DummyThing())
         # minimal conditions for tests
         self.assertGreaterEqual(len(potential_cells.get_sensors()), 3)
         self.assertGreaterEqual(len(potential_cells.get_actuators()), 2)
@@ -16,7 +17,7 @@ class TestBrain(unittest.TestCase):
 
     def test_brain_connections(self):
         factory = BrainFactory()
-        potential_cells = CellCollection()
+        potential_cells = CellCollection(DummyThing())
         # genes for testing
         genes = [
             # 1) sensor0 to nuron0
@@ -47,7 +48,7 @@ class TestBrain(unittest.TestCase):
 
     def test_make_simple_connections(self):
         factory = BrainFactory()
-        potential_cells = CellCollection()
+        potential_cells = CellCollection(DummyThing())
 
         # genes for testing
         genes = [
@@ -144,14 +145,14 @@ class TestBrain(unittest.TestCase):
 
     def test_big_brain_raw(self):
         factory = BrainFactory()
-        potential_cells = CellCollection()
+        potential_cells = CellCollection(DummyThing())
 
         # build and minimally test big_brain
         self.build_big_brain(factory, potential_cells)
 
     def test_brain_marking_code(self):
         factory = BrainFactory()
-        potential_cells = CellCollection()
+        potential_cells = CellCollection(DummyThing())
         brain = self.build_big_brain(factory, potential_cells)
         starting_list = brain.actuators
         newly_marked = []
@@ -193,7 +194,7 @@ class TestBrain(unittest.TestCase):
 
     def test_brain_marking_useful_cells(self):
         factory = BrainFactory()
-        potential_cells = CellCollection()
+        potential_cells = CellCollection(DummyThing())
         brain = self.build_big_brain(factory, potential_cells)
         brain.mark_used_cells()
         self.assertIn(brain.actuators[0], brain.marked_cells)
@@ -209,7 +210,7 @@ class TestBrain(unittest.TestCase):
 
     def test_brain_remove_useless_cells_after_marking_code(self):
         factory = BrainFactory()
-        potential_cells = CellCollection()
+        potential_cells = CellCollection(DummyThing())
         brain = self.build_big_brain(factory, potential_cells)
         self.assertEqual(12, len(brain.connections))
         self.assertEqual(10, len(brain.all_cells))
@@ -259,7 +260,7 @@ class TestBrain(unittest.TestCase):
 
     def test_big_brain_cleaned_by_parts(self):
         factory = BrainFactory()
-        potential_cells = CellCollection()
+        potential_cells = CellCollection(DummyThing())
         brain = self.build_big_brain(factory, potential_cells)
         brain.mark_used_cells()
         brain.remove_unmarked_cells()
@@ -282,7 +283,7 @@ class TestBrain(unittest.TestCase):
 
     def test_big_brain_optimized(self):
         factory = BrainFactory()
-        potential_cells = CellCollection()
+        potential_cells = CellCollection(DummyThing())
         brain = self.build_big_brain(factory, potential_cells)
         brain.clear_unused_cells()
         self.assertEqual(10, len(brain.connections))
@@ -293,7 +294,7 @@ class TestBrain(unittest.TestCase):
 
     def test_clearing_cells_does_not_remove_neuron_without_inputs(self):
         factory = BrainFactory()
-        potential_cells = CellCollection()
+        potential_cells = CellCollection(DummyThing())
 
         # genes for testing
         genes = [

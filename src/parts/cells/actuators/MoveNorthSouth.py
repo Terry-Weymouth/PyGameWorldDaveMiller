@@ -1,9 +1,7 @@
-from parts.cells.BrainCell import BrainCell
-from settings import GeneCellType
+from parts.cells.actuators.Actuator import Actuator
 
 
-class MoveNorthSouth(BrainCell):
+class MoveNorthSouth(Actuator):
 
-    def __init__(self):
-        super().__init__()
-        self.type = GeneCellType.ACTUATOR
+    def __init__(self, thing):
+        super().__init__(thing)
