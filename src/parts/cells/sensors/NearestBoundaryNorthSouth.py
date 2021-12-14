@@ -7,4 +7,8 @@ class NearestBoundaryNorthSouth(Sensor):
         super().__init__(thing)
 
     def set_sense_value(self):
-        self.value = 1.0
+        max_value_y = self.thing.world.height / 2.0
+        y = self.thing.pos[1]
+        min_dist_y = min(y, (max_value_y - y))
+        value = min_dist_y / max_value_y
+        self.value = value

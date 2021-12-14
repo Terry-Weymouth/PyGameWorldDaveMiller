@@ -7,4 +7,4 @@ class Random(Sensor):
         super().__init__(thing)
 
     def set_sense_value(self):
-        pass
+        self.value = self.thing.world.get_random_value_for_sensor()
