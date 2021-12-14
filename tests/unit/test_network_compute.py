@@ -74,7 +74,6 @@ class TestNetworkCompute(unittest.TestCase):
             sensor.value = 0.5
 
         brain.propagate()
-
         self.assertEqual(2.0, brain.neurons[0].sum_of_inputs)
         self.assertEqual(0.0, brain.neurons[1].sum_of_inputs)
         self.assertEqual(4.0, brain.neurons[2].sum_of_inputs)

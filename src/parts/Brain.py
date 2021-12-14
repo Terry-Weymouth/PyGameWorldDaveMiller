@@ -81,6 +81,7 @@ class Brain:
                     connection.sink.connects_from.remove(connection)
 
     def clear_unused_cells(self):
+        # ToDo: should probably be moved to init, requires refactoring of tests!
         self.mark_used_cells()
         self.remove_unmarked_cells()
         self.reset_marks()
@@ -101,4 +102,3 @@ class Brain:
                 cell.value = math.tanh(cell.sum_of_inputs)
             else:
                 cell.value = 1.0
-
