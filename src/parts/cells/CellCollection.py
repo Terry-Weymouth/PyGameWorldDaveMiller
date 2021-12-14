@@ -21,4 +21,3 @@ class CellCollection:
 
     def get_neurons(self):
         return self.neurons
-
