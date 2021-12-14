@@ -1,0 +1,2 @@
+class LastMoveDirectionX:
+    pass

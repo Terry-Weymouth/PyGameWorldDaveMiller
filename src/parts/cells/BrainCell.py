@@ -1,7 +1,7 @@
 class BrainCell:
 
     def __init__(self):
-        self.value = 0
+        self.value = 0.0
         self.sum_of_inputs = 0
         self.type = None
         self.connects_to = []
@@ -22,3 +22,6 @@ class BrainCell:
 
     def reset_mark(self):
         self.marked = False
+
+    def get_value(self):
+        return self.value

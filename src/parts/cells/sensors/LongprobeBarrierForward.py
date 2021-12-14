@@ -1,0 +1,2 @@
+class LongprobeBarrierFoward:
+    pass

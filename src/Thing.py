@@ -14,6 +14,7 @@ class Thing(Sprite):
         self.image.fill(THING_COLOR)
         self.pos = start_pos
         self.next_pos = self.pos
+        self.age = 0
         self.update()
 
     def desired_move(self):
