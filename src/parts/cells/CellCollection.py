@@ -1,20 +1,14 @@
 from settings import NUMBER_OF_NEURONS
-# Sensors
-from parts.cells.LocationEastWest import LocationEastWest
-from parts.cells.LocationNorthSouth import LocationNorthSouth
-from parts.cells.Age import Age
-# Actuators
-from parts.cells.MoveEastWest import MoveEastWest
-from parts.cells.MoveNorthSouth import MoveNorthSouth
-# Neuron
 from parts.cells.Neuron import Neuron
+from parts.cells.sensors.SensorList import SensorList
+from parts.cells.actuators.ActuatorList import ActuatorList
 
 
 class CellCollection:
 
     def __init__(self):
-        self.sensors = [LocationEastWest(), LocationNorthSouth(), Age()]
-        self.actuators = [MoveEastWest(), MoveNorthSouth()]
+        self.sensors = SensorList().sensors
+        self.actuators = ActuatorList().actuators
         self.neurons = []
         while len(self.neurons) < NUMBER_OF_NEURONS:
             self.neurons.append(Neuron())
