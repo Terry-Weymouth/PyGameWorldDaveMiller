@@ -11,9 +11,6 @@ class Gene:
     def get_gene_bytes(self):
         return self.gene_bytes
 
-    def copy(self):
-        return Gene(bytearray(self.get_gene_bytes()))
-
     def parse(self):
         source_type_index = self.gene_bytes[0] >> 7
         source_index = self.gene_bytes[0] & 127
@@ -27,6 +24,6 @@ class Gene:
     @staticmethod
     def make_random_gene_bytes():
         ret = bytearray(Gene.BYTE_STRING_LENGTH)
-        for i in range(0,len(ret)):
+        for i in range(0, len(ret)):
             ret[i] = getrandbits(8)
         return ret

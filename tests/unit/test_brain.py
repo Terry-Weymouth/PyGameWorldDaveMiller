@@ -291,13 +291,33 @@ class TestBrain(unittest.TestCase):
         self.assertEqual(2, len(brain.actuators))
         self.assertEqual(3, len(brain.neurons))
 
+    def test_clearing_cells_does_not_remove_neuron_without_inputs(self):
+        factory = BrainFactory()
+        potential_cells = CellCollection()
+
+        # genes for testing
+        genes = [
+            # nuron0 to actuator0
+            factory.make_gene_from_settings_array([[1, 0], [0, 0], 0])]
+
+        # make Genome with fixed genes - for testing
+        genome = Genome(genes)
+
+        brain = Brain(genome, potential_cells)
+        neuron0 = brain.neurons[0]
+        actuator0 = brain.actuators[0]
+
+        self.assertEqual(1, len(brain.connections))
+        connection0 = brain.connections[0]
+        self.assertEqual(neuron0, connection0.source)
+        self.assertEqual(actuator0, connection0.sink)
+        brain.clear_unused_cells()
+
+        self.assertEqual(1, len(brain.connections))
+        self.assertEqual(connection0, brain.connections[0])
+
     def build_big_brain(self, factory, potential_cells):
         # build - genome for connections
-        # Sensor0 -> Neuron0, Neuron0 -> Neuron1 (unused)
-        # Neuron0 -> Actuator0, Neuron2 -> Neuron2 (unused)
-        # Sensor2 -> (both Neuron3 and Neuron4) -> Actuator1
-        # Sensor3 -> (both Neuron3 and Neuron4)
-        # Neuron3 -> Neuron4, Neuron4 -> Neuron3
         genes = [
             # Sensor0 -> Neuron0
             factory.make_gene_from_settings_array([[0, 0], [1, 0], 0]),
@@ -315,9 +335,9 @@ class TestBrain(unittest.TestCase):
             factory.make_gene_from_settings_array([[1, 3], [0, 1], 0]),
             # Nuron4 -> Actuator1
             factory.make_gene_from_settings_array([[1, 4], [0, 1], 0]),
-            # Sensor3 -> Neuron3
+            # Sensor2 -> Neuron3
             factory.make_gene_from_settings_array([[0, 2], [1, 3], 0]),
-            # Sensor3 -> Neuron4
+            # Sensor2 -> Neuron4
             factory.make_gene_from_settings_array([[0, 2], [1, 4], 0]),
             # Nuron3 -> Neuron4
             factory.make_gene_from_settings_array([[1, 3], [1, 4], 0]),

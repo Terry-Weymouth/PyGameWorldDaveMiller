@@ -1,7 +1,9 @@
+
 class BrainCell:
 
     def __init__(self):
         self.value = 0
+        self.sum_of_inputs = 0
         self.type = None
         self.connects_to = []
         self.connects_from = []

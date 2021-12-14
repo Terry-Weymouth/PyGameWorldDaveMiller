@@ -1,3 +1,4 @@
+import math
 from parts.BrainFactory import BrainFactory
 from settings import GeneCellType
 
@@ -88,3 +89,16 @@ class Brain:
         self.marked_cells = []
         for cell in self.all_cells:
             cell.reset_mark()
+
+    def propagate(self):
+        for cell in self.all_cells:
+            cell.sum_of_inputs = 0.0
+        for cell in self.sensors + self.neurons:
+            for connection in cell.connects_to:
+                connection.sink.sum_of_inputs += connection.strength * cell.value
+        for cell in self.neurons + self.actuators:
+            if cell.connects_from:
+                cell.value = math.tanh(cell.sum_of_inputs)
+            else:
+                cell.value = 1.0
+

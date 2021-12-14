@@ -19,14 +19,6 @@ class TestGene(unittest.TestCase):
         gene = Gene(gene_bytes)
         self.assertEqual(gene_bytes, gene.get_gene_bytes())
 
-    def test_copy(self):
-        gene_bytes = bytearray(b'\x01\x02\x03\x04\x05\x06\x07\x08')
-        gene = Gene(gene_bytes)
-        gene_copy = gene.copy()
-        self.assertEqual(gene.get_gene_bytes(), gene_copy.get_gene_bytes())
-        gene_copy.get_gene_bytes()[0] = 255
-        self.assertNotEqual(gene.get_gene_bytes(), gene_copy.get_gene_bytes())
-
     def test_parse(self):
         settings = [[0, 127], [1, 15], 256*255 + 15]
         factory = BrainFactory()
