@@ -1,10 +1,12 @@
-"""This module contains all of the necessary PyGame components for
-running a simplified game loop.
-Use it for test cases on PyGame-related code.
-
+"""
+This module contains all of the necessary PyGame components for
+running a simplified game loop, based on PyGame-related code.
 Copied from https://gist.github.com/MarquisLP/b534c95e4a11efaf376e
-
 Written by Mark Padilla, https://gist.github.com/MarquisLP
+
+It have been modified to run a one-generation loop of the
+evolutionary simulation represented in this project.
+See the top-level Readme file.
 
 Modified: Dec 2021
 """
@@ -31,7 +33,10 @@ def pygame_modules_have_loaded():
 
 pygame.init()
 
-if pygame_modules_have_loaded():
+if not pygame_modules_have_loaded():
+    print("Load of pygame elements, and/or initialization failed")
+    pygame.quit()
+else:
     pygame.display.set_caption('Test')
     clock = pygame.time.Clock()
 
