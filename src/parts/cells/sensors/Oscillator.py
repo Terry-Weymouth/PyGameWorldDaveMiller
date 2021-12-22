@@ -7,4 +7,4 @@ class Oscillator(Sensor):
         super().__init__(thing)
 
     def set_sense_value(self):
-        self.value = self.thing.world.get_oscillator_value()
+        self.value = self.thing.get_oscillator_value()

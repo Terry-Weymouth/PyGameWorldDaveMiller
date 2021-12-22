@@ -7,4 +7,4 @@ class LastMoveDirectionX(Sensor):
         super().__init__(thing)
 
     def set_sense_value(self):
-        self.value = self.thing.last_move_direction[0]
+        self.value = self.thing.move_direction[0]

@@ -36,7 +36,6 @@ class DummyWorld:
         self.width = height
         self.height = width
         self.grid = [[None for _ in range(height)] for _ in range(width)]
-        self.dummy_oscillator_value = 0.0
         self.dummy_random_value = 0.0
 
     def add_thing_to_world(self, thing):
@@ -46,9 +45,6 @@ class DummyWorld:
     def thing_at(self, pos):
         (x, y) = pos
         return self.grid[x][y]
-
-    def get_oscillator_value(self):
-        return self.dummy_oscillator_value
 
     def get_random_value_for_sensor(self):
         return self.dummy_random_value
@@ -61,14 +57,17 @@ class DummyThing(Thing):
 
     def __init__(self, start_pos, world):
         super().__init__(start_pos, world)
-        # note, actual direction, not intended (that is, updated on actual move)
-        self.last_move_direction = (0, 0)  # (x, y): x is one of -1, 0, 1; same with y
+        self.move_direction = (0, 0)  # (x, y): x is one of -1, 0, 1; same with y
         self.value_for_test = None
         self.neighborhood_cache = None
+        self.dummy_oscillator_value = 0.0
 
     def update(self):
         # suppress action that depends on World
         pass
+
+    def get_oscillator_value(self):
+        return self.dummy_oscillator_value
 
     def cache_local_neighorhood(self):
         # 'northward' (from top-center) clockwise
@@ -76,7 +75,7 @@ class DummyThing(Thing):
         # that is   N      NE      E       SE        S         SW       W        NW
         current_direction_index = -1
         for i in range(8):
-            if local[i] == self.last_move_direction:
+            if local[i] == self.move_direction:
                 current_direction_index = i
         if current_direction_index < 0:
             # the current direction is (0 0), no movement - default to north for now
@@ -168,10 +167,10 @@ class TestSensors(unittest.TestCase):
 
     def test_oscillator_sensor(self):
         world = DummyWorld(1000, 1000)
-        world.dummy_oscillator_value = 0.5
         start_pos = (0, 0)
         thing = DummyThing(start_pos, world)
-        self.assertEqual(0.5, thing.world.get_oscillator_value())
+        thing.dummy_oscillator_value = 0.5
+        self.assertEqual(0.5, thing.get_oscillator_value())
 
         sensor = Oscillator(thing)
         sensor.set_sense_value()
@@ -197,7 +196,7 @@ class TestSensors(unittest.TestCase):
         start_pos = (0, 0)
         thing = DummyThing(start_pos, world)
 
-        thing.last_move_direction = (-1, 1)
+        thing.move_direction = (-1, 1)
 
         sensorx = LastMoveDirectionX(thing)
         sensory = LastMoveDirectionY(thing)
@@ -234,19 +233,19 @@ class TestSensors(unittest.TestCase):
         world.add_thing_to_world(thing)
         self.assertIsNotNone(world.thing_at((10, 10)))  # Center
 
-        thing.last_move_direction = (0, 0)          # not moving
+        thing.move_direction = (0, 0)          # not moving
         thing.cache_local_neighorhood()             # assume N as default
         self.assertEqual(0, thing.value_for_test)   # index 0 in N (see implementation of Thing above)
 
-        thing.last_move_direction = (1, 1)         # moving NE
+        thing.move_direction = (1, 1)         # moving NE
         thing.cache_local_neighorhood()
         self.assertEqual(1, thing.value_for_test)  # see DummyThing, above
 
-        thing.last_move_direction = (-1, 1)
+        thing.move_direction = (-1, 1)
         thing.cache_local_neighorhood()
         self.assertEqual(7, thing.value_for_test)  # see DummyThing, above
 
-        thing.last_move_direction = (1, 0)         # for move direction E
+        thing.move_direction = (1, 0)         # for move direction E
         thing.cache_local_neighorhood()
         self.assertEqual(2, thing.value_for_test)
         # starting in direction traveled, moving clockwise
