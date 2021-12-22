@@ -1,6 +1,7 @@
 import pygame
 from random import randint
 from Thing import Thing
+from ThingSprite import ThingSprite
 from settings import NUMBER_OF_THINGS, WORLD_SIZE, GRID_SIZE
 
 
@@ -16,7 +17,8 @@ class World:
             (x, y) = pos
             self.grid[x][y] = thing
             self.things.append(thing)
-            self.sprite_group.add(thing)
+            its_sprite = ThingSprite(thing, self)
+            self.sprite_group.add(its_sprite)
         self.width = WORLD_SIZE
         self.height = WORLD_SIZE
 

@@ -1,21 +1,14 @@
 from random import randint
-from pygame.sprite import Sprite
-from pygame import Surface
 from util import add_points
-from settings import THING_SIZE, THING_COLOR
 
 
-class Thing(Sprite):
+class Thing:
 
     def __init__(self, start_pos, world):
-        Sprite.__init__(self)
         self.world = world
-        self.image = Surface((THING_SIZE, THING_SIZE))
-        self.image.fill(THING_COLOR)
         self.pos = start_pos
         self.next_pos = self.pos
         self.age = 0
-        self.update()
 
     def desired_move(self):
         # sense environment
@@ -44,10 +37,6 @@ class Thing(Sprite):
             self.next_pos = self.pos
             return True
         return False
-
-    def update(self):
-        self.rect = self.image.get_rect()
-        self.rect.topleft = self.world.map_position(self.pos)
 
     def get_pos(self):
         return self.rect.center
