@@ -3,7 +3,10 @@ from settings import GeneCellType
 from parts.Genome import Genome
 from parts.BrainFactory import BrainFactory
 from parts.cells.CellCollection import CellCollection
-from DummyThing import DummyThing
+
+
+class DummyThing:
+    pass
 
 
 class BrianFactoryTest(unittest.TestCase):

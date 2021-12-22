@@ -4,7 +4,10 @@ from parts.cells.CellCollection import CellCollection
 from parts.BrainFactory import BrainFactory
 from parts.Genome import Genome
 from parts.Brain import Brain
-from DummyThing import DummyThing
+
+
+class DummyThing:
+    pass
 
 
 class TestNetworkCompute(unittest.TestCase):
