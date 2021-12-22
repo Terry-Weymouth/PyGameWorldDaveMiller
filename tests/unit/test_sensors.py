@@ -1,5 +1,7 @@
-# see Readme.md; Dave Miller's sensors, specifically see: getSensors.cpp
+# see Readme.md; Dave Miller's sensors, specifically see: getSensors.cpp, sensors-actions.h
 #   https://github.com/davidrmiller/biosim4/blob/main/src/getSensor.cpp
+#   https://github.com/davidrmiller/biosim4/blob/main/src/sensors-actions.h
+
 import unittest
 from util import add_points
 from parts.cells.sensors.Age import Age
@@ -62,7 +64,7 @@ class DummyThing(Thing):
         # note, actual direction, not intended (that is, updated on actual move)
         self.last_move_direction = (0, 0)  # (x, y): x is one of -1, 0, 1; same with y
         self.value_for_test = None
-        self.neighborhood_cache = [None] * 8
+        self.neighborhood_cache = None
 
     def update(self):
         # suppress action that depends on World
