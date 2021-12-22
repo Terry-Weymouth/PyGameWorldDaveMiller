@@ -53,7 +53,7 @@ class TestActuators(unittest.TestCase):
         world.add_thing_to_world(thing)
         self.assertIsNotNone(world.thing_at(start_pos))
         self.assertEqual(thing, world.thing_at(start_pos))
-        
+
 
     def test_move_north_south(self):
         pass
