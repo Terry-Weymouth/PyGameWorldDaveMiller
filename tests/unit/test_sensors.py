@@ -86,6 +86,8 @@ class TestSensors(unittest.TestCase):
         thing = DummyThing(start_pos, DummyWorld(1000))
         thing.age = 300
         sensor = Age(thing)
+        self.assertEqual(300, sensor.thing.age)
+        self.assertEqual(0.3, sensor.thing.get_normalized_age())
         sensor.set_sense_value()
         value = sensor.get_value()
         self.assertEqual(0.3, value)

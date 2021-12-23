@@ -7,4 +7,4 @@ class Age(Sensor):
         super().__init__(thing)
 
     def set_sense_value(self):
-        return self.thing.get_normalized_age()
+        self.value = self.thing.get_normalized_age()
