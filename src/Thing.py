@@ -10,6 +10,9 @@ class Thing:
         self.next_pos = self.pos
         self.age = 0
 
+    def get_normalized_age(self):
+        return float(self.age)/float(self.world.max_number_of_steps)
+
     def desired_move(self):
         # sense environment
         # cycle brain

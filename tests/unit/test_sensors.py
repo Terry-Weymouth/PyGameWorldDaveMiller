@@ -27,30 +27,17 @@ from parts.cells.sensors.Random import Random
 # from parts.cells.sensors.GeneticSimilarityForward import GeneticSimilarityForward
 
 from Thing import Thing
+from World import World
 
 
-class DummyWorld:
+class DummyWorld(World):
 
-    def __init__(self, height, width):
-        self.max_number_of_steps = 1000
-        self.width = height
-        self.height = width
-        self.grid = [[None for _ in range(height)] for _ in range(width)]
+    def __init__(self, size):
+        super().__init__(size)
         self.dummy_random_value = 0.0
-
-    def add_thing_to_world(self, thing):
-        (x, y) = thing.pos
-        self.grid[x][y] = thing
-
-    def thing_at(self, pos):
-        (x, y) = pos
-        return self.grid[x][y]
 
     def get_random_value_for_sensor(self):
         return self.dummy_random_value
-
-    def is_free_grid_cell(self, x, y):
-        return self.grid[x][y] is None
 
 
 class DummyThing(Thing):
@@ -96,7 +83,7 @@ class TestSensors(unittest.TestCase):
 
     def test_sensor_age(self):
         start_pos = (10, 10)
-        thing = DummyThing(start_pos, DummyWorld(1000, 1000))
+        thing = DummyThing(start_pos, DummyWorld(1000))
         thing.age = 300
         sensor = Age(thing)
         sensor.set_sense_value()
@@ -104,7 +91,7 @@ class TestSensors(unittest.TestCase):
         self.assertEqual(0.3, value)
 
     def test_sensor_abs_location(self):
-        world = DummyWorld(1000, 1000)
+        world = DummyWorld(1000)
         x = world.width / 2
         y = world.height / 2
         start_pos = (x, y)
@@ -121,7 +108,7 @@ class TestSensors(unittest.TestCase):
         self.assertEqual(0.5, value)
 
     def test_distance_to_boundary(self):
-        world = DummyWorld(1000, 1000)
+        world = DummyWorld(1000)
         start_pos_center = (int(world.width / 2), int(world.height / 2))
         thing_center = DummyThing(start_pos_center, world)
         start_pos_ul = (int(world.width / 4), int(world.height / 4))
@@ -166,7 +153,7 @@ class TestSensors(unittest.TestCase):
         self.assertEqual(0.5, value)
 
     def test_oscillator_sensor(self):
-        world = DummyWorld(1000, 1000)
+        world = DummyWorld(1000)
         start_pos = (0, 0)
         thing = DummyThing(start_pos, world)
         thing.dummy_oscillator_value = 0.5
@@ -179,7 +166,7 @@ class TestSensors(unittest.TestCase):
         self.assertEqual(0.5, value)
 
     def test_random_sensor(self):
-        world = DummyWorld(1000, 1000)
+        world = DummyWorld(1000)
         world.dummy_random_value = 0.2
         start_pos = (0, 0)
         thing = DummyThing(start_pos, world)
@@ -192,7 +179,7 @@ class TestSensors(unittest.TestCase):
         self.assertEqual(0.2, value)
 
     def test_last_move_sensors(self):
-        world = DummyWorld(1000, 1000)
+        world = DummyWorld(1000)
         start_pos = (0, 0)
         thing = DummyThing(start_pos, world)
 
@@ -208,7 +195,7 @@ class TestSensors(unittest.TestCase):
         self.assertEqual(1, sensory.value)
 
     def test_population_density(self):
-        world = DummyWorld(1000, 1000)
+        world = DummyWorld(1000)
         start_pos = (10, 10)
 
         # set up neighbors

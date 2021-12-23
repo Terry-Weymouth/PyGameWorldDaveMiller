@@ -13,6 +13,8 @@ WORLD_SIZE = 128
 GRID_SIZE = 4
 DISPLAY_SIZE = WORLD_SIZE * GRID_SIZE
 
+MAX_NUMBER_OF_STEPS = 1000  # how many steps to a generation (should be in Simulation - which is not now)
+
 BACKGROUND_COLOR = LIGHT_GREY
 FPS = 10
 

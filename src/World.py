@@ -2,25 +2,25 @@ import pygame
 from random import randint
 from Thing import Thing
 from ThingSprite import ThingSprite
-from settings import NUMBER_OF_THINGS, WORLD_SIZE, GRID_SIZE
+from settings import NUMBER_OF_THINGS, WORLD_SIZE, GRID_SIZE, MAX_NUMBER_OF_STEPS
 
 
 class World:
 
-    def __init__(self):
-        self.sprite_group = pygame.sprite.Group()
+    def __init__(self, size=WORLD_SIZE, number_of_things=NUMBER_OF_THINGS, graphic=False):
+        self.graphic = graphic
+        self.size = size
+        if self.graphic:
+            self.sprite_group = pygame.sprite.Group()
         self.things = []
-        self.grid = [[None for i in range(WORLD_SIZE)] for j in range(WORLD_SIZE)]
-        while len(self.things) < NUMBER_OF_THINGS:
+        self.grid = [[None for _ in range(self.size)] for _ in range(self.size)]
+        while len(self.things) < number_of_things:
             pos = self.find_ramdom_free_spot()
             thing = Thing(pos, self)
-            (x, y) = pos
-            self.grid[x][y] = thing
-            self.things.append(thing)
-            its_sprite = ThingSprite(thing, self)
-            self.sprite_group.add(its_sprite)
-        self.width = WORLD_SIZE
-        self.height = WORLD_SIZE
+            self.add_thing_to_world(thing)
+        self.width = self.size
+        self.height = self.size
+        self.max_number_of_steps = MAX_NUMBER_OF_STEPS
 
     def one_step_all(self):
         for thing in self.things:
@@ -42,20 +42,31 @@ class World:
         y = 0
         free_spot = False
         while not free_spot:
-            x = randint(0, WORLD_SIZE - 1)
-            y = randint(0, WORLD_SIZE - 1)
+            x = randint(0, self.size - 1)
+            y = randint(0, self.size - 1)
             free_spot = self.is_free_grid_cell(x, y)
         return x, y
+
+    def add_thing_to_world(self, thing):
+        (x, y) = thing.pos
+        self.grid[x][y] = thing
+        self.things.append(thing)
+        if self.graphic:
+            its_sprite = ThingSprite(thing, self)
+            self.sprite_group.add(its_sprite)
 
     def is_free_grid_cell(self, x, y):
         return self.grid[x][y] is None
 
-    @staticmethod
-    def is_in_bounds(x, y):
-        return -1 < x < WORLD_SIZE and -1 < y < WORLD_SIZE
+    def thing_at(self, pos):
+        (x, y) = pos
+        return self.grid[x][y]
+
+    def is_in_bounds(self, x, y):
+        return -1 < x < self.size and -1 < y < self.size
 
     @staticmethod
-    def map_position(pos):
+    def map_position(pos):  # position of lower_right corner in graphic display
         (x, y) = pos
         nx = x * GRID_SIZE
         ny = y * GRID_SIZE
