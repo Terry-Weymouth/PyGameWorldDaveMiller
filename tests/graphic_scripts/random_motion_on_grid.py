@@ -16,6 +16,7 @@ from pygame.locals import *
 # Import additional modules here.
 from Simulation import Simulation
 from World import World
+from settings import NUMBER_OF_THINGS, WORLD_SIZE
 
 
 def pygame_modules_have_loaded():
@@ -69,7 +70,7 @@ else:
         declare_globals()
         prepare_test()
 
-        world = World()
+        world = World(WORLD_SIZE, NUMBER_OF_THINGS, True)
         simulation = Simulation(world)
 
         # Run until the user asks to quit
