@@ -73,7 +73,7 @@ class TestAcionsInTheWorld(unittest.TestCase):
         thing.pos = (nx, ny)
         self.assertEqual(start_pos, thing.pos)
 
-    def test_move(self):
+    def test_move_brain_no_net(self):
 
         world = World(1000)
         start_pos = (20, 20)
