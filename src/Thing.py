@@ -1,5 +1,6 @@
 from random import randint
 from util import add_points
+from parts.cells.actuators.ActionAccumulator import ActionAccumulator
 
 
 class Thing:
@@ -28,6 +29,9 @@ class Thing:
         if self.world.is_in_bounds(x, y) and self.world.is_free_grid_cell(x, y):
             self.next_pos = check_pos
 
+#    def set_next_cycle_values(self):
+#        accumulator = ActionAccumulator()
+
     def move_to_next_world_position(self):
         (x, y) = self.next_pos
         # in case it can't move
@@ -40,6 +44,3 @@ class Thing:
             self.next_pos = self.pos
             return True
         return False
-
-    def get_pos(self):
-        return self.rect.center
