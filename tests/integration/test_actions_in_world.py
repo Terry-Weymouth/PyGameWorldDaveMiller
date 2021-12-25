@@ -66,7 +66,7 @@ class TestAcionsInTheWorld(unittest.TestCase):
             self.assertIn(cell, brain.actuators)
 
         values = [1.0, 1.0, 1.0, 1.0]
-        results = [(1.0, 0.0), (-1.0, 0.0), (0.0, 1.0), (0.0, -1.0)]
+        results = [(1.0, 0.0), (-1.0, 0.0), (0.0, -1.0), (0.0, 1.0)]
         new_pos = add_points((0.0, 0.0), start_pos)
         self.assertEqual((20, 20), new_pos)
         for i in range(len(values)):
@@ -126,7 +126,7 @@ class TestAcionsInTheWorld(unittest.TestCase):
 
         world.one_step_all()
         self.assertIsNone(world.thing_at(start_pos))
-        self.assertEqual((21, 21), thing.pos)
+        self.assertEqual((21, 19), thing.pos)
         self.assertEqual(thing, world.thing_at(thing.pos))
 
     def test_dummy_brain_move_south_east_then_east(self):
@@ -168,7 +168,7 @@ class TestAcionsInTheWorld(unittest.TestCase):
 
         world.one_step_all()
         self.assertIsNone(world.thing_at(start_pos))
-        self.assertEqual((21, 19), thing.pos)
+        self.assertEqual((21, 21), thing.pos)
         self.assertEqual(thing, world.thing_at(thing.pos))
 
         values = [1.0, 0.0, 0.0, 0.0]  # east, west, north, south
@@ -176,6 +176,6 @@ class TestAcionsInTheWorld(unittest.TestCase):
             actuator_list[i].value = values[i]
 
         world.one_step_all()
-        self.assertEqual((22, 19), thing.pos)
+        self.assertEqual((22, 21), thing.pos)
         self.assertEqual(thing, world.thing_at(thing.pos))
 

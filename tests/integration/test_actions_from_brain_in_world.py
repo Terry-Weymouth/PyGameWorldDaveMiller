@@ -64,7 +64,7 @@ class TestActionsFromBrainInWorld(unittest.TestCase):
         self.assertGreater(brain.actuators[0].value, 0.5)
         self.assertGreater(brain.actuators[1].value, 0.5)
         self.assertIsNone(world.thing_at(start_pos))
-        self.assertEqual((21, 19), thing.pos)
+        self.assertEqual((21, 21), thing.pos)
         self.assertEqual(thing, world.thing_at(thing.pos))
 
     @staticmethod
