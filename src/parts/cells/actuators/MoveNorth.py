@@ -9,7 +9,7 @@ class MoveNorth(Actuator):
 
     def add_action(self, accumulator):
         dx = 0.0
-        dy = self.clip_effective_value()
+        dy = -self.clip_effective_value()
         accumulator.delta_pos = add_points((dx, dy), accumulator.delta_pos)
         return accumulator
 

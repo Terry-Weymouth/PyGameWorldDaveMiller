@@ -116,7 +116,7 @@ class TestActuators(unittest.TestCase):
         accumulator = ActionAccumulator()
         results = actuator.add_action(accumulator)
         self.assertEqual(0.0, results.delta_pos[0])
-        self.assertEqual(1.0, results.delta_pos[1])
+        self.assertEqual(-1.0, results.delta_pos[1])
 
     def test_move_south(self):
         world = DummyWorld(1000)
@@ -137,7 +137,7 @@ class TestActuators(unittest.TestCase):
         accumulator = ActionAccumulator()
         results = actuator.add_action(accumulator)
         self.assertEqual(0.0, results.delta_pos[0])
-        self.assertEqual(-1.0, results.delta_pos[1])
+        self.assertEqual(1.0, results.delta_pos[1])
 
     def test_move_north_south_east_west(self):
         world = DummyWorld(1000)
@@ -154,7 +154,7 @@ class TestActuators(unittest.TestCase):
             MoveSouth(thing)
             ]
         values = [1.0, 0.5, 1.0, 0.5]
-        results = [(1.0, 0.0), (0.5, 0.0), (0.5, 1.0), (0.5, 0.5)]
+        results = [(1.0, 0.0), (0.5, 0.0), (0.5, -1.0), (0.5, -0.5)]
         accumulator = ActionAccumulator()
         for i in range(len(values)):
             actuator_list[i].value = values[i]
