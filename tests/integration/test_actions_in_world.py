@@ -33,6 +33,8 @@ class DummyBrain:
             if cell not in self.neurons:
                 self.neurons.append(cell)
 
+    def propagate(self): # suppress brain network update
+        pass
 
 class TestAcionsInTheWorld(unittest.TestCase):
 
