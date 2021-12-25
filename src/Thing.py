@@ -1,5 +1,5 @@
-from random import randint
 from util import add_points
+from parts.Brain import Brain
 from parts.cells.actuators.ActionAccumulator import ActionAccumulator
 
 
@@ -10,27 +10,24 @@ class Thing:
         self.pos = start_pos
         self.next_pos = self.pos
         self.age = 0
+        self.brain = None
+
+    def set_brain(self, genome, initial_cells):
+        self.brain = Brain(genome, initial_cells)
 
     def get_normalized_age(self):
         return float(self.age)/float(self.world.max_number_of_steps)
 
-    def desired_move(self):
-        # sense environment
-        # cycle brain
-        # read out actions
-        # effect world - random motion only for now
-        dx = randint(0, 3) - 1
-        dy = randint(0, 3) - 1
-        return add_points(self.pos, (dx, dy))
+    def setup_next_step_from_actions(self):
+        actions = ActionAccumulator()
+        for cell in self.brain.actuators:
+            actions = cell.add_action(actions)
+        self.next_pos = self.round_up_motion_steps(add_points(self.pos, actions.delta_pos))
 
-    def set_next_world_position(self):
-        check_pos = self.desired_move()
-        (x, y) = check_pos
-        if self.world.is_in_bounds(x, y) and self.world.is_free_grid_cell(x, y):
-            self.next_pos = check_pos
-
-#    def set_next_cycle_values(self):
-#        accumulator = ActionAccumulator()
+    @staticmethod
+    def round_up_motion_steps(pos):
+        (x, y) = pos
+        return int(x + 0.5), int(y + 0.5)
 
     def move_to_next_world_position(self):
         (x, y) = self.next_pos

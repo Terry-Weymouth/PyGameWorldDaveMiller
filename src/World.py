@@ -24,15 +24,21 @@ class World:
 
     def one_step_all(self):
         for thing in self.things:
-            thing.set_next_world_position()
+            # thing.set_sensors()
+            thing.brain.propagate()
+            thing.setup_next_step_from_actions()
+        # for motion of things
         for thing in self.things:
-            old_position = thing.pos
-            if thing.move_to_next_world_position():
-                (ox, oy) = old_position
-                (nx, ny) = thing.pos  # new position
-                # move in grid
-                self.grid[ox][oy] = None
-                self.grid[nx][ny] = thing
+            old_pos = thing.pos
+            check_pos = thing.next_pos
+            (x, y) = check_pos
+            if self.is_in_bounds(x, y) and self.is_free_grid_cell(x, y):
+                if thing.move_to_next_world_position():
+                    (ox, oy) = old_pos
+                    (nx, ny) = thing.pos  # new position
+                    # move in grid
+                    self.grid[ox][oy] = None
+                    self.grid[nx][ny] = thing
 
     def get_group(self):
         return self.sprite_group

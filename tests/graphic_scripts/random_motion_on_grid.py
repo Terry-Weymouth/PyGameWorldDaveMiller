@@ -67,16 +67,17 @@ else:
     # Add additional methods here.
 
     def main():
-        declare_globals()
-        prepare_test()
+        print("Not currently working - needs to be Refactored to take into accounts updates in Thing, Brain, and World")
+#        declare_globals()
+#        prepare_test()
 
-        world = World(WORLD_SIZE, NUMBER_OF_THINGS, True)
-        simulation = Simulation(world)
+#        world = World(WORLD_SIZE, NUMBER_OF_THINGS, True)
+#        simulation = Simulation(world)
 
         # Run until the user asks to quit
-        running = True
-        while running:
-            running = simulation.one_loop_step()
+#        running = True
+#        while running:
+#            running = simulation.one_loop_step()
 
         # Done! Time to quit.
         pygame.quit()
