@@ -9,6 +9,7 @@ from parts.cells.actuators.MoveEast import MoveEast
 from parts.cells.actuators.MoveWest import MoveWest
 from parts.cells.actuators.MoveNorth import MoveNorth
 from parts.cells.actuators.MoveSouth import MoveSouth
+from parts.cells.actuators.MoveRandom import MoveRandom
 
 from Thing import Thing
 from World import World
@@ -168,7 +169,6 @@ class TestActuators(unittest.TestCase):
 #    MOVE_LEFT,                // W
 #    MOVE_RIGHT,               // W
 #    MOVE_REVERSE,             // W
-#    MOVE_RANDOM,              // W
 #    SET_OSCILLATOR_PERIOD,    // I
 #    SET_LONGPROBE_DIST,       // I
 #    SET_RESPONSIVENESS,       // I
