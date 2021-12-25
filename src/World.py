@@ -24,7 +24,7 @@ class World:
 
     def one_step_all(self):
         for thing in self.things:
-            # thing.set_sensors()
+            thing.set_sensors()
             thing.brain.propagate()
             thing.setup_next_step_from_actions()
         # for motion of things

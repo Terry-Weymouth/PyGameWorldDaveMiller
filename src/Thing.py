@@ -18,6 +18,10 @@ class Thing:
     def get_normalized_age(self):
         return float(self.age)/float(self.world.max_number_of_steps)
 
+    def set_sensors(self):
+        for sensor in self.brain.sensors:
+            sensor.set_sense_value()
+
     def setup_next_step_from_actions(self):
         actions = ActionAccumulator()
         for cell in self.brain.actuators:
