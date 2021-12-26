@@ -1,4 +1,4 @@
-from random import getrandbits
+from random import getrandbits, randint
 from settings import GeneCellType
 
 
@@ -27,3 +27,14 @@ class Gene:
         for i in range(0, len(ret)):
             ret[i] = getrandbits(8)
         return ret
+
+    def create_mutant_gene_single_bit(self):
+        byte_index = randint(0, len(self.gene_bytes) -1)
+        bit_index = randint(0, 7)
+        new_gene_bytes = bytearray(len(self.gene_bytes))
+        for i in range(len(new_gene_bytes)):
+            byte = self.gene_bytes[i]
+            if i == byte_index:
+                byte ^= 1 << bit_index
+            new_gene_bytes[i] = byte
+        return Gene(new_gene_bytes)

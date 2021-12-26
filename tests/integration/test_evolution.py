@@ -1,4 +1,5 @@
 import unittest
+from random import randint
 
 from parts.cells.CellCollection import CellCollection
 from parts.BrainFactory import BrainFactory
@@ -22,12 +23,12 @@ class TestEvolution(unittest.TestCase):
         self.assertGreaterEqual(len(potential_cells.get_actuators()), 5)
         self.assertGreaterEqual(len(potential_cells.get_neurons()), 6)
 
-    def test_satisfy_goal(self):
+    def test_satisfy_goal_fixed_genome(self):
         world = World(128, 100, False)
         factory = BrainFactory()
         for thing in world.things:
             potential_cells = CellCollection(thing)
-            thing.brain = self.get_south_east_brain(factory,potential_cells)
+            thing.brain = self.get_south_east_brain(factory, potential_cells)
             thing.brain.clear_unused_cells()
             for con in thing.brain.connections:
                 con.strength = 4.0
@@ -51,7 +52,7 @@ class TestEvolution(unittest.TestCase):
         factory = BrainFactory()
         for thing in world.things:
             potential_cells = CellCollection(thing)
-            thing.brain = self.get_south_east_brain(factory,potential_cells)
+            thing.brain = self.get_south_east_brain(factory, potential_cells)
             thing.brain.clear_unused_cells()
             for con in thing.brain.connections:
                 con.strength = 4.0
@@ -73,34 +74,44 @@ class TestEvolution(unittest.TestCase):
     def test_new_generation(self):
         generation_size = 100
         world = World(128, generation_size, False)
-        factory = BrainFactory()
         for thing in world.things:
             potential_cells = CellCollection(thing)
-            thing.brain = self.get_south_east_brain(factory,potential_cells)
+            thing.brain = Brain(Genome(), potential_cells)  # random bits
             thing.brain.clear_unused_cells()
-            for con in thing.brain.connections:
-                con.strength = 4.0
 
         goal = GoalSouthEastCorner(world)
 
         for _ in range(300):
             world.one_step_all()
 
-        brain_list = []
+        genome_list = []
         for thing in world.things:
             if goal.satisfy_goal(thing):
-                brain_list.append(thing.brain)
+                genome_list.append(thing.brain.genome)
+
+        self.assertGreater(len(genome_list), 0)
+
+        previous_count = len(genome_list)
 
         world = World(128, generation_size, False)
 
-        # for thing in world.things:
-        #     potential_cells = CellCollection(thing)
-        #     thing.brain = factory.brain_at_random(brain_list)
-        #     for cell in thing.brain.all_cells:
-        #         cell.value = 0.0
+        for thing in world.things:
+            potential_cells = CellCollection(thing)
+            genome = self.select_random_from_list(genome_list)
+            thing.brain = Brain(genome, potential_cells)
+            thing.brain.clear_unused_cells()
+            for cell in thing.brain.all_cells:
+                cell.value = 0.0
 
-        # for _ in range(300):
-        #     world.one_step_all()
+        for _ in range(300):
+            world.one_step_all()
+
+        genome_list = []
+        for thing in world.things:
+            if goal.satisfy_goal(thing):
+                genome_list.append(thing.brain.genome)
+
+        self.assertGreater(len(genome_list), previous_count)
 
     @staticmethod
     def get_south_east_brain(factory, potential_cells):
@@ -116,3 +127,8 @@ class TestEvolution(unittest.TestCase):
         genome = Genome(genes)
         brain = Brain(genome, potential_cells)
         return brain
+
+    @staticmethod
+    def select_random_from_list(genome_list):
+        random_index = randint(0, len(genome_list) - 1)
+        return genome_list[random_index]

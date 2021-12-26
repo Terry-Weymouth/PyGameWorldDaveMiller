@@ -20,15 +20,16 @@ class Simulation:
         # display window
         pygame.display.set_caption("World Simulation")
 
-    def run(self):
-        print("Running: ", self)
+    def run(self, number_of_steps=None):
 
         # Run until the user asks to quit
         running = True
+        steps = 0
         while running:
             running = self.one_loop_step()
-
-        # Done! Time to quit.
+            if number_of_steps:
+                steps += 1
+                running = running & (steps < number_of_steps)
         pygame.quit()
 
     def one_loop_step(self):

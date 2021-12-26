@@ -8,6 +8,7 @@ from parts.cells.CellCollection import CellCollection
 from goals.GoalSouthEastCorner import GoalSouthEastCorner
 from settings import WORLD_SIZE, NUMBER_OF_THINGS
 
+
 class GoalPlay:
 
     def main(self):
