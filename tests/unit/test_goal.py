@@ -11,6 +11,7 @@ from parts.Brain import Brain
 
 from goals.GoalSouthEastCorner import GoalSouthEastCorner
 from goals.GoalCenter import GoalCenter
+from goals.GoalFourCorner import GoalFourCorner
 
 
 class TestGoal(unittest.TestCase):
@@ -34,6 +35,32 @@ class TestGoal(unittest.TestCase):
         goal = GoalCenter(world)
         self.assertTrue(goal.satisfy_goal(thing_center))
         self.assertFalse(goal.satisfy_goal(thing_outside_center))
+
+    def test_direct_satisfy_four_corner_goal(self):
+        world = World(128, 100, False)
+        size = world.size
+        size_half = size / 2
+        size_eight = size / 8
+        size_minus_eight = size - size_eight
+        thing_center = Thing((size_half, size_half), world)
+        thing_ne = Thing((size_eight, size_eight), world)
+        thing_se = Thing((size_eight, size_minus_eight), world)
+        thing_nw = Thing((size_minus_eight, size_eight), world)
+        thing_sw = Thing((size_minus_eight, size_minus_eight), world)
+        thing_n = Thing((size_half, size_eight), world)
+        thing_s = Thing((size_half, size_minus_eight), world)
+        thing_e = Thing((size_eight, size_half), world)
+        thing_w = Thing((size_minus_eight, size_half), world)
+        goal = GoalFourCorner(world)
+        self.assertTrue(goal.satisfy_goal(thing_ne))
+        self.assertTrue(goal.satisfy_goal(thing_se))
+        self.assertTrue(goal.satisfy_goal(thing_nw))
+        self.assertTrue(goal.satisfy_goal(thing_sw))
+        self.assertFalse(goal.satisfy_goal(thing_center))
+        self.assertFalse(goal.satisfy_goal(thing_n))
+        self.assertFalse(goal.satisfy_goal(thing_s))
+        self.assertFalse(goal.satisfy_goal(thing_e))
+        self.assertFalse(goal.satisfy_goal(thing_w))
 
     def test_brain_satisfy_goal(self):
         world = World(128, 100, False)

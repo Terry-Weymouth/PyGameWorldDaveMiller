@@ -73,3 +73,37 @@ class Simulation:
         if event.type == QUIT:
             return True
         return False
+
+    def show_current_state(self):
+        running = True
+
+        # keep loop running at the right speed
+        self.clock.tick(FPS)
+        pygame.display.set_caption("Scratch for playing")
+
+        while running:
+
+            # Process input (events) - quite click or ESCAPE key
+            for event in pygame.event.get():
+                if self.is_quit_event(event):
+                    running = False
+            if not running:
+                print("Quit event received")
+
+            if running:
+                self.world.sprite_group.update()
+
+                # Fill the background
+                self.screen.fill(BACKGROUND_COLOR)
+
+                # Draw updated things
+                self.world.sprite_group.draw(self.screen)
+
+                # draw the goal
+                self.goal.draw_goal(self.screen)
+
+                # Flip the display
+                pygame.display.flip()
+
+        pygame.quit()
+
