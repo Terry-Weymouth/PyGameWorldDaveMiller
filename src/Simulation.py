@@ -11,9 +11,10 @@ pygame.init()
 
 class Simulation:
 
-    def __init__(self, world):
+    def __init__(self, world, goal):
         # Set up the drawing window
         self.world = world
+        self.goal = goal
         self.screen = pygame.display.set_mode([DISPLAY_SIZE, DISPLAY_SIZE])
         # master clock
         self.clock = pygame.time.Clock()
@@ -52,6 +53,9 @@ class Simulation:
 
             # Draw updated things
             self.world.sprite_group.draw(self.screen)
+
+            # draw the goal
+            self.goal.draw_goal(self.screen)
 
             # Flip the display
             pygame.display.flip()

@@ -10,6 +10,7 @@ from parts.Genome import Genome
 from parts.Brain import Brain
 
 from goals.GoalSouthEastCorner import GoalSouthEastCorner
+from goals.GoalCenter import GoalCenter
 
 
 class TestGoal(unittest.TestCase):
@@ -24,7 +25,17 @@ class TestGoal(unittest.TestCase):
         self.assertGreaterEqual(len(potential_cells.get_actuators()), 5)
         self.assertGreaterEqual(len(potential_cells.get_neurons()), 6)
 
-    def test_satisfy_goal(self):
+    def test_direct_satisfy_center_goal(self):
+        world = World(128, 100, False)
+        start_pos = (64, 64)
+        thing_center = Thing(start_pos, world)
+        start_pos = (4, 4)
+        thing_outside_center = Thing(start_pos, world)
+        goal = GoalCenter(world)
+        self.assertTrue(goal.satisfy_goal(thing_center))
+        self.assertFalse(goal.satisfy_goal(thing_outside_center))
+
+    def test_brain_satisfy_goal(self):
         world = World(128, 100, False)
         factory = BrainFactory()
         for thing in world.things:

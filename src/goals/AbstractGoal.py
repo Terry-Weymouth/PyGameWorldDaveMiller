@@ -1,3 +1,6 @@
+GOAL_COLOR = (0, 255, 255)
+
+
 class AbstractGoal:
 
     def __init__(self, world):
@@ -11,4 +14,7 @@ class AbstractGoal:
         return count
 
     def satisfy_goal(self, thing):
+        raise NotImplementedError
+
+    def draw_goal(self, screen):
         raise NotImplementedError
