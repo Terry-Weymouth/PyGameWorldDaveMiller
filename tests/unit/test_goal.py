@@ -38,20 +38,21 @@ class TestGoal(unittest.TestCase):
 
     def test_direct_satisfy_four_corner_goal(self):
         world = World(128, 100, False)
-        size = world.size
-        size_half = size / 2
-        size_eight = size / 8
-        size_minus_eight = size - size_eight
-        thing_center = Thing((size_half, size_half), world)
-        thing_ne = Thing((size_eight, size_eight), world)
-        thing_se = Thing((size_eight, size_minus_eight), world)
-        thing_nw = Thing((size_minus_eight, size_eight), world)
-        thing_sw = Thing((size_minus_eight, size_minus_eight), world)
-        thing_n = Thing((size_half, size_eight), world)
-        thing_s = Thing((size_half, size_minus_eight), world)
-        thing_e = Thing((size_eight, size_half), world)
-        thing_w = Thing((size_minus_eight, size_half), world)
         goal = GoalFourCorner(world)
+
+        size = world.size
+        offset = goal.radius / 4
+        size_half = size / 2
+        size_minus_offset = size - offset
+        thing_center = Thing((size_half, size_half), world)
+        thing_ne = Thing((offset, offset), world)
+        thing_se = Thing((offset, size_minus_offset), world)
+        thing_nw = Thing((size_minus_offset, offset), world)
+        thing_sw = Thing((size_minus_offset, size_minus_offset), world)
+        thing_n = Thing((size_half, offset), world)
+        thing_s = Thing((size_half, size_minus_offset), world)
+        thing_e = Thing((offset, size_half), world)
+        thing_w = Thing((size_minus_offset, size_half), world)
         self.assertTrue(goal.satisfy_goal(thing_ne))
         self.assertTrue(goal.satisfy_goal(thing_se))
         self.assertTrue(goal.satisfy_goal(thing_nw))
@@ -67,7 +68,7 @@ class TestGoal(unittest.TestCase):
         factory = BrainFactory()
         for thing in world.things:
             potential_cells = CellCollection(thing)
-            thing.brain = self.get_south_east_brain(factory,potential_cells)
+            thing.brain = self.get_south_east_brain(factory, potential_cells)
             thing.brain.clear_unused_cells()
             for con in thing.brain.connections:
                 con.strength = 4.0

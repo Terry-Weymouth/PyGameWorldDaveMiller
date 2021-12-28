@@ -74,12 +74,12 @@ class Simulation:
             return True
         return False
 
-    def show_current_state(self):
+    def show_current_state(self, title):
         running = True
 
         # keep loop running at the right speed
         self.clock.tick(FPS)
-        pygame.display.set_caption("Scratch for playing")
+        pygame.display.set_caption(title)
 
         while running:
 
