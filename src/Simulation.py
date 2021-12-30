@@ -20,6 +20,8 @@ class Simulation:
         self.clock = pygame.time.Clock()
         # display window
         pygame.display.set_caption("World Simulation")
+        # color all the things
+        self.world.color_all_sprites()
 
     def run(self, number_of_steps=None):
 

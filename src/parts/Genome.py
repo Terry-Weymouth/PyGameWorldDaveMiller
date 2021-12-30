@@ -5,8 +5,9 @@ from parts.Gene import Gene
 
 class Genome:
 
-    def __init__(self, genes=None):
+    def __init__(self, genes=None, mutant=False):
         self.genes = genes
+        self.mutant = mutant
         if not genes:
             self.genes = []
             while len(self.genes) < NUMBER_OF_GENES_IN_GENOME:
@@ -24,4 +25,4 @@ class Genome:
             if i == index:
                 new_gene = new_gene.create_mutant_gene_single_bit()
             new_genes.append(new_gene)
-        return Genome(new_genes)
+        return Genome(new_genes, mutant=True)

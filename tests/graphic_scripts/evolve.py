@@ -10,6 +10,25 @@ from goals.GoalFourCorner import GoalFourCorner
 from parts.cells.CellCollection import CellCollection
 
 
+def print_stats(stats_genome_list, stats_unique_genome_list):
+
+    counts = []
+    for stats_genome in stats_unique_genome_list:
+        count = 0
+        for candidate in stats_genome_list:
+            if stats_genome is candidate:
+                count += 1
+        counts.append(count)
+
+    for i in range(len(counts)):
+        stats_genome = stats_genome_list[i]
+        count = counts[i]
+        signature = []
+        for gene in stats_genome.get_genes():
+            signature.append(gene.parse())
+        print(count, signature)
+
+
 def freeze_frame(title, frame_world):
     keep_things = frame_world.things
     frame_world = World(world_size, generation_size, True)
@@ -32,9 +51,12 @@ if __name__ == '__main__':
     world_size = 128
     mutation_rate = 0.01
     generation_size = 300
-    number_of_steps = 128  # per generation
+    number_of_steps = 200  # per generation
     number_of_generations = 100001
     goal_choice = 2
+
+    graphic_interval = 50
+    snapshot_interval = 500
 
     genome_list = []
     previous_mutant_list = []
@@ -52,7 +74,7 @@ if __name__ == '__main__':
     print("Goal class = {}".format(goal_class))
 
     for _ in range(number_of_generations):
-        graphic = generation % 10 == 0
+        graphic = generation % graphic_interval == 0
 
         generation += 1
 
@@ -92,19 +114,27 @@ if __name__ == '__main__':
         genome_list += new_genomes
 
         unique_genome_list = []
+        mutant_count = 0
         for genome in genome_list:
             if genome not in unique_genome_list:
+                if genome.mutant:
+                    mutant_count += 1
                 unique_genome_list.append(genome)
 
         surviving_mutant_list = []
-        for genome in surviving_mutant_list:
+        for genome in previous_mutant_list:
             if genome in unique_genome_list:
                 surviving_mutant_list.append(genome)
 
+        previous_mutant_list = new_genomes
+
         total = len(world.things)
-        print("generation {}: {} survivers ({:3.1f}%); {} unique; {} mutant; {} surviving".format(
-            generation, len(genome_list), (len(genome_list)*100)/total,
-            len(unique_genome_list), len(new_genomes), len(surviving_mutant_list)))
+        print(("generation {}: {} survivers ({:3.1f}%); {} unique (mutants: {} - {:3.1f}%);" +
+              " {} new mutant; {} previous mutant surviving").format(
+                  generation, len(genome_list), (len(genome_list)*100.0)/total,
+                  len(unique_genome_list), mutant_count,
+                  (mutant_count*100.0)/len(unique_genome_list),
+                  len(new_genomes), len(surviving_mutant_list)))
 
         if float(len(genome_list)) / float(len(world.things)) > 0.95:
             good_world_count += 1
@@ -112,8 +142,9 @@ if __name__ == '__main__':
         if good_world_count > 5:
             break
 
-        if generation % 100 == 0:
-            freeze_frame("Snapshot", world)
+        # if generation % snapshot_interval == 0:
+            # print_stats(genome_list, unique_genome_list)
+            # freeze_frame("Snapshot", world)
 
     # show survivors
     print("Found good world - five times in a row")
