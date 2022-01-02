@@ -78,7 +78,7 @@ class World:
         ny = y * GRID_SIZE
         return nx, ny
 
-    def color_all_sprites(self):
+    def color_all_sprites(self, all_cells):
         if self.graphic:
             for s in self.sprite_group:
-                s.set_color_from_genes()
+                s.set_color_from_thing_genome(all_cells)

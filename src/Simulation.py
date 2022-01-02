@@ -5,6 +5,8 @@ from pygame.locals import (
     QUIT,
 )
 from settings import FPS, BACKGROUND_COLOR, DISPLAY_SIZE
+from parts.cells.CellCollection import CellCollection
+from Thing import Thing
 
 pygame.init()
 
@@ -21,7 +23,8 @@ class Simulation:
         # display window
         pygame.display.set_caption("World Simulation")
         # color all the things
-        self.world.color_all_sprites()
+        dummy_thing = Thing((0, 0), world)
+        self.world.color_all_sprites(CellCollection(dummy_thing))
 
     def run(self, number_of_steps=None):
 

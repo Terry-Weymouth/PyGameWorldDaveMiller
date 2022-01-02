@@ -55,8 +55,8 @@ if __name__ == '__main__':
     number_of_generations = 100001
     goal_choice = 2
 
-    graphic_interval = 50
-    snapshot_interval = 500
+    graphic_interval = 100
+    snapshot_interval = 5000
 
     genome_list = []
     previous_mutant_list = []
@@ -74,7 +74,8 @@ if __name__ == '__main__':
     print("Goal class = {}".format(goal_class))
 
     for _ in range(number_of_generations):
-        graphic = generation % graphic_interval == 0
+        # graphic = generation % graphic_interval == 0
+        graphic = False
 
         generation += 1
 
@@ -136,8 +137,16 @@ if __name__ == '__main__':
                   (mutant_count*100.0)/len(unique_genome_list),
                   len(new_genomes), len(surviving_mutant_list)))
 
+        if graphic:
+            dummy_thing = world.things[0]
+            collection = CellCollection(dummy_thing)
+            for genome in unique_genome_list:
+                print(genome.get_color(collection))
+
         if float(len(genome_list)) / float(len(world.things)) > 0.95:
             good_world_count += 1
+        else:
+            good_world_count = 0
 
         if good_world_count > 5:
             break
