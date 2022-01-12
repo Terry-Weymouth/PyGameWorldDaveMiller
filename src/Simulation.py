@@ -25,6 +25,7 @@ class Simulation:
         # color all the things
         dummy_thing = Thing((0, 0), world)
         self.world.color_all_sprites(CellCollection(dummy_thing))
+        self.str_image = ""
 
     def run(self, number_of_steps=None):
 
@@ -36,7 +37,8 @@ class Simulation:
             if number_of_steps:
                 steps += 1
                 running = running & (steps < number_of_steps)
-        pygame.quit()
+        self.str_image = pygame.image.tostring(self.screen, "RGBA")
+        pygame.display.quit()
 
     def one_loop_step(self):
         running = True
@@ -82,20 +84,21 @@ class Simulation:
     def show_current_state(self, title):
         running = True
 
-        # keep loop running at the right speed
-        self.clock.tick(FPS)
         pygame.display.set_caption(title)
 
+        framecount = 1
         while running:
+            # self.clock.tick(FPS)
 
             # Process input (events) - quite click or ESCAPE key
             for event in pygame.event.get():
                 if self.is_quit_event(event):
                     running = False
-            if not running:
-                print("Quit event received")
 
             if running:
+                framecount = framecount - 1
+                running = (framecount < 0)
+
                 self.world.sprite_group.update()
 
                 # Fill the background
@@ -110,5 +113,6 @@ class Simulation:
                 # Flip the display
                 pygame.display.flip()
 
-        pygame.quit()
+        self.str_image = pygame.image.tostring(self.screen, "RGBA")
+        # pygame.display.quit()
 

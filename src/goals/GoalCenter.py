@@ -2,6 +2,7 @@ import pygame
 from goals.AbstractGoal import AbstractGoal, GOAL_COLOR
 from settings import THING_SIZE
 
+
 class GoalCenter(AbstractGoal):
 
     def satisfy_goal(self, thing):

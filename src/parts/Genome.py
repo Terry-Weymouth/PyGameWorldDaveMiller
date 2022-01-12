@@ -28,6 +28,16 @@ class Genome:
             new_genes.append(new_gene)
         return Genome(new_genes, mutant=True)
 
+    def create_crossover(self, mate):
+        cross_point = randint(1, len(self.genes) - 2)
+        new_genes = []
+        for i in range(len(self.genes)):
+            if i < cross_point:
+                new_genes.append(self.genes[i])
+            else:
+                new_genes.append(mate.genes[i])
+        return Genome(new_genes)
+
     def get_color(self, candidates):
         number_of_genes = len(self.get_genes())
         value_list = []
@@ -62,8 +72,9 @@ class Genome:
         colors[0] = (new_sums[1] << 2) + new_sums[0]
         colors[1] = (new_sums[3] << 2) + new_sums[2]
         colors[2] = new_sums[4]
-        for i in range(3):
-            colors[i] = self.satruate(colors[i])
+        colors = self.saturate_list(colors)
+        # for i in range(3):
+        #    colors[i] = self.satruate(colors[i])
         return tuple(colors)
 
     @staticmethod
@@ -87,3 +98,8 @@ class Genome:
         while color < 128:
             color = color << 1
         return color
+
+    @staticmethod
+    def saturate_list(color_list):
+        scale_value = 255 - max(color_list)
+        return [x + scale_value for x in color_list]
