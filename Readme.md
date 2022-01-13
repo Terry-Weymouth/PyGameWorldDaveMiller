@@ -1,4 +1,7 @@
 # An evolution-world model
+Required Python packages:
+    pygame
+    opencv-python
 
 This project is a transliteration of the Dave Miller's biosim4
 into Python using PyGame is an underlying simulation engine.
@@ -20,11 +23,7 @@ in length and that all genomes for a particular simulation
 are of equal and fixed length. David's code allows for verying
 length genes.
 
-Also, in this early implementation, I am not simulating sexual
-reproduction in any way. Reproducion just copies the genes of
-the serviving "bugs". Single bit mutations (usually at a small
-probability) are supported. See David's video on You Tube.
-
+See David's video on You Tube.
 https://www.youtube.com/watch?v=N3tRFayqVtk
 
 Note: I am using this exercise as a means to practice test-driven
