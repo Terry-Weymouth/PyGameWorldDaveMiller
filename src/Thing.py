@@ -1,3 +1,4 @@
+from math import sin, pi
 from util import add_points
 from parts.Brain import Brain
 from parts.cells.actuators.ActionAccumulator import ActionAccumulator
@@ -9,6 +10,7 @@ class Thing:
         self.world = world
         self.pos = start_pos
         self.next_pos = self.pos
+        self.move_direction = (0, 0)
         self.age = 0
         self.brain = None
 
@@ -40,8 +42,13 @@ class Thing:
         # multiple Things may be trying to move into the free cell
         # so, check is another Thing has already made the move
         if self.world.is_free_grid_cell(x, y):
+            self.move_direction = (x - self.pos[0], y - self.pos[1])
             self.pos = (x, y)
             # reset next_pos
             self.next_pos = self.pos
             return True
         return False
+
+    def get_oscillator_value(self):
+        return sin((self.age * pi) / 100.0)
+

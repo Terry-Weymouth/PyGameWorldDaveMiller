@@ -2,6 +2,7 @@ from pygame.sprite import Sprite
 from pygame import Surface
 from settings import THING_SIZE
 
+
 class ThingSprite(Sprite):
 
     def __init__(self, thing, world):

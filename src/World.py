@@ -1,5 +1,5 @@
 import pygame
-from random import randint
+from random import randint, random
 from Thing import Thing
 from ThingSprite import ThingSprite
 from settings import NUMBER_OF_THINGS, WORLD_SIZE, GRID_SIZE, MAX_NUMBER_OF_STEPS
@@ -60,6 +60,9 @@ class World:
         if self.graphic:
             its_sprite = ThingSprite(thing, self)
             self.sprite_group.add(its_sprite)
+
+    def get_random_value_for_sensor(self):
+        return random()
 
     def is_free_grid_cell(self, x, y):
         return self.grid[x][y] is None
