@@ -2,6 +2,8 @@ from pygame.sprite import Sprite
 from pygame import Surface
 from settings import THING_SIZE
 
+RED = (255, 0, 0)
+
 
 class ThingSprite(Sprite):
 
@@ -19,3 +21,7 @@ class ThingSprite(Sprite):
         color = self.thing.brain.genome.get_color(cell_collection)
         self.image.fill(color)
 
+    def set_color_from_goal(self, goal):
+        if goal.satisfy_goal(self.thing):
+            color = RED
+            self.image.fill(color)

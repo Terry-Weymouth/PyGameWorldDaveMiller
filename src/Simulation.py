@@ -27,7 +27,7 @@ class Simulation:
         self.world.color_all_sprites(CellCollection(dummy_thing))
         self.str_image = ""
 
-    def run(self, number_of_steps=None):
+    def run(self, number_of_steps=None, show_goal = False):
 
         # Run until the user asks to quit
         running = True
@@ -38,6 +38,8 @@ class Simulation:
                 steps += 1
                 running = running & (steps < number_of_steps)
         self.str_image = pygame.image.tostring(self.screen, "RGBA")
+        if show_goal:
+            self.display_goal_things()
         pygame.display.quit()
 
     def one_loop_step(self):
@@ -68,6 +70,22 @@ class Simulation:
             pygame.display.flip()
 
         return running
+
+    def display_goal_things(self):
+        self.world.color_goal_sprites(self.goal)
+
+        # Fill the background
+        self.screen.fill(BACKGROUND_COLOR)
+
+        # Draw updated things
+        self.world.sprite_group.draw(self.screen)
+
+        # draw the goal
+        self.goal.draw_goal(self.screen)
+
+        # Flip the display
+        pygame.display.flip()
+        pygame.time.wait(1000)
 
     @staticmethod
     def is_quit_event(event):

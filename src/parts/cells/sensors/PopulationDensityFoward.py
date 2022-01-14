@@ -7,4 +7,5 @@ class PopulationDensityFoward(Sensor):
         super().__init__(thing)
 
     def set_sense_value(self):
-        pass
+        raw_value = self.thing.forward_neighbor_count()
+        return raw_value / 3.0

@@ -7,4 +7,5 @@ class PopulationDensityLeftRight(Sensor):
         super().__init__(thing)
 
     def set_sense_value(self):
-        pass
+        raw_value = self.thing.left_right_neighbor_count()
+        return raw_value / 6.0

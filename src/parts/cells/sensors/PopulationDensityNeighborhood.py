@@ -7,5 +7,5 @@ class PopulationDensityNeighborhood(Sensor):
         super().__init__(thing)
 
     def set_sense_value(self):
-        raw = float(sum(self.thing.neighborhood_cache))
-        self.value = raw/8.0
+        raw_value = self.thing.neighbor_count()
+        self.value = raw_value/8.0

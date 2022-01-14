@@ -6,6 +6,9 @@ from parts.cells.sensors.LastMoveDirectionY import LastMoveDirectionY
 from parts.cells.sensors.NearestBoundary import NearestBoundary
 from parts.cells.sensors.NearestBoundaryEastWest import NearestBoundaryEastWest
 from parts.cells.sensors.NearestBoundaryNorthSouth import NearestBoundaryNorthSouth
+from parts.cells.sensors.PopulationDensityNeighborhood import PopulationDensityNeighborhood
+from parts.cells.sensors.PopulationDensityFoward import PopulationDensityFoward
+from parts.cells.sensors.PopulationDensityLeftRight import PopulationDensityLeftRight
 from parts.cells.sensors.Oscillator import Oscillator
 from parts.cells.sensors.Random import Random
 
@@ -22,6 +25,9 @@ class SensorList:
             NearestBoundary(thing),
             NearestBoundaryEastWest(thing),
             NearestBoundaryNorthSouth(thing),
+            PopulationDensityNeighborhood(thing),
+            PopulationDensityFoward(thing),
+            PopulationDensityLeftRight(thing),
             Oscillator(thing),
             Random(thing)
         ]

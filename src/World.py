@@ -65,6 +65,8 @@ class World:
         return random()
 
     def is_free_grid_cell(self, x, y):
+        if not self.is_in_bounds(x, y):
+            return False
         return self.grid[x][y] is None
 
     def thing_at(self, pos):
@@ -85,3 +87,8 @@ class World:
         if self.graphic:
             for s in self.sprite_group:
                 s.set_color_from_thing_genome(all_cells)
+
+    def color_goal_sprites(self, goal):
+        if self.graphic:
+            for s in self.sprite_group:
+                s.set_color_from_goal(goal)

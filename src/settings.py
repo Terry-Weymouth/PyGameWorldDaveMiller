@@ -3,6 +3,7 @@ from enum import Enum
 BLUE = (0, 0, 255)
 LIGHT_GREY = (180, 180, 180)
 DARK_GREY = (80, 80, 80)
+RED = (255, 0, 0)
 
 THING_SIZE = 4
 THING_COLOR = BLUE
